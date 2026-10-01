@@ -1,0 +1,582 @@
+﻿@{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+@using CapacitaGRD_Admin.DTOs
+@using Newtonsoft.Json
+@using Newtonsoft.Json.Serialization
+
+@{    
+    var Modalidades = ViewData["Modalidades"] as List<ModalidadDTO>;
+    var Tipos = ViewData["Tipos"] as List<TipoEventoDTO>;    
+    var Estados = ViewData["Estados"] as List<EstadoDTO>;    
+
+    var Encuestas = ViewData["Encuestas"] as List<EncuestaDTO>;
+    var Cuestionarios = ViewData["Cuestionarios"] as List<CuestionarioDTO>;
+
+    var Distritos = ViewData["Distritos"] as List<DistritoDTO>;
+    var Documentos = ViewData["Documentos"] as List<DocumentoDTO>;
+
+    var apiCaptcha = ViewData["apiCaptcha"] as string;
+
+}
+ 
+<section class="content">
+    <div class="container-fluid">
+        <div class="row clearfix">
+            <div class="col-lg-12">
+                <div class="card">
+                    <div class="header">
+                        <h2><strong>Eventos </strong></h2>
+                    </div>
+
+                    <div class="body">
+
+                                          
+                        <div class="row clearfix">
+                            <div class="col-lg-3 col-md-3 col-sm-3">
+                                <b>Modalidad</b>                               
+                                <select name="Eventos-Buscar-Modalidad" id="Eventos-Buscar-Modalidad" style="width: 100%;">
+                                    <option value="0">Todos</option>
+                                    @{
+                                        foreach (var item in Modalidades)
+                                        {
+                                            <option value="@item.ID_MODALIDAD">@item.NOMBRE</option>
+                                        }
+                                    }
+                                </select>
+                            </div>
+
+                            <div class="col-lg-3 col-md-3 col-sm-3">
+                                <b>Tipo</b>
+                                <select name="Eventos-Buscar-Tipo" id="Eventos-Buscar-Tipo" style="width: 100%;">
+                                    <option value="0">Todos</option>
+                                    @{
+                                        foreach (var item in Tipos)
+                                        {
+                                            <option value="@item.ID_TIPO_EVENTO">@item.NOMBRE</option>
+                                        }
+                                    }
+                                </select>
+                            </div>
+
+                            <div class="col-lg-3 col-md-3 col-sm-3">
+                                <b>Estado</b>
+                                <select name="Eventos-Buscar-Estado" id="Eventos-Buscar-Estado" style="width: 100%;">
+                                    <option value="0">Todos</option>
+                                    @{
+                                        foreach (var item in Estados)
+                                        {
+                                            <option value="@item.ID_ESTADO">@item.NOMBRE</option>
+                                        }
+                                    }
+                                </select>
+                            </div>
+ 
+
+                            <div class="col-lg-3 col-md-3 col-sm-3 mt-3">
+                                <button type="button" id="Eventos-Buscar" class="btn btn-raised btn-primary btn-round waves-effect m-l-20">Buscar</button>
+                                <button type="button" id="Eventos-Actualizar" class="btn btn-raised btn-default btn-round waves-effect m-l-20">Actualizar</button>
+                                <button type="button" id="Eventos-Agregar" class="btn btn-raised btn-default btn-round waves-effect m-l-20">Agregar</button>
+
+                                <button type="button" id="Eventos-Tablero" class="btn btn-raised btn-info btn-round waves-effect m-l-20">Tablero</button>
+                            </div>
+                        </div>
+
+                        <div class="row clearfix">
+                            <div class="col-lg-12 col-md-12 col-sm-12 mt-3">
+                                <b>Filtros rápidos:</b>
+                                <button type="button" id="Eventos-Filtro-Todos" class="btn btn-sm btn-raised btn-default btn-round waves-effect m-l-20">Todos</button>
+                                <button type="button" id="Eventos-Filtro-Activos" class="btn btn-sm btn-raised btn-default btn-round waves-effect m-l-20">Activos</button>
+                                <button type="button" id="Eventos-Filtro-Realizados" class="btn btn-sm btn-raised btn-default btn-round waves-effect m-l-20">Realizados</button>
+                                <button type="button" id="Eventos-Filtro-Cancelados" class="btn btn-sm btn-raised btn-default btn-round waves-effect m-l-20">Cancelados</button>
+                            </div>
+                        </div>
+                    </div>
+                    <br />
+
+                    <div class="body">
+
+
+                        <div class="tab-content">
+                            <div class="table-responsive">
+                                <table class="table table-bordered table-hover dataTable dtr-inline" style="width: 100%;" id="Eventos-Tabla">
+                                    <thead>
+                                        <tr>
+                                            <th>Id</th>
+                                            <th>Nombre</th>
+                                            <th>Fecha</th>
+                                            <th>#Participantes</th>
+                                            <th>Estado</th>
+                                            <th>&nbsp;</th>
+                                            <th>&nbsp;</th>
+                                            <th>&nbsp;</th>
+                                         </tr>
+
+                                    </thead>
+                                    <tbody>                                        
+                                    </tbody>
+                                </table>
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+</section>
+
+<!-- Modal Evento -->
+<div class="modal fade" id="Modal-Eventos" aria-hidden="true" data-codigo="">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="title">Evento</h4>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">×</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <form enctype="multipart/form-data" method="POST" id="frmenvento" name="frmenvento">
+
+                    <div class="form-group row mb-1">
+                        <label for="Modal-Eventos-Codigo" class="col-sm-2 col-form-label text-right">Código</label>
+                        <div class="col-sm-6">
+                            <input id="Modal-Eventos-Codigo" name="Modal-Eventos-Codigo" class="form-control" type="text" value="" disabled="" />
+                        </div>
+
+
+                        <label for="Modal-Eventos-Participantes" class="col-sm-2 col-form-label text-right">
+                            # Cupos(*)
+                        </label>
+                        <div class="col-sm-2">
+                            <input id="Modal-Eventos-Participantes" name="Modal-Eventos-Participantes" class="form-control" type="number" min="1" max="1000" step="1" value="" />
+                        </div>
+
+                    </div>
+
+                    <div class="form-group row mb-1">
+                        <label for="Modal-Eventos-Nombre" class="col-sm-2 col-form-label text-right">Nombre(*)</label>
+                        <div class="col-sm-10">
+                            <input id="Modal-Eventos-Nombre" name="Modal-Eventos-Nombre" class="form-control" type="text" value="" maxlength="250" autocomplete="off" />
+                        </div>
+                    </div>
+
+                    <div class="form-group row mb-1">
+                        <label for="Modal-Eventos-Modalidad" class="col-sm-2 col-form-label text-right">Modalidad(*)</label>
+                        <div class="col-sm-4">
+                            <select name="Modal-Eventos-Modalidad" id="Modal-Eventos-Modalidad" class="form-control" style="width: 100%;">
+                                <option value="0">Seleccione</option>
+                                @{
+                                    foreach (var item in Modalidades)
+                                    {
+                                        <option value="@item.ID_MODALIDAD">@item.NOMBRE</option>
+                                    }
+                                }
+                            </select>
+                        </div>
+
+                        <label for="Modal-Eventos-Tipo" class="col-sm-2 col-form-label text-right">Tipo Evento(*)</label>
+                        <div class="col-sm-4">
+                            <select name="Modal-Eventos-Tipo" id="Modal-Eventos-Tipo" class="form-control" style="width: 100%;">
+                                <option value="0">Seleccione</option>
+                                @{
+                                    foreach (var item in Tipos)
+                                    {
+                                        <option value="@item.ID_TIPO_EVENTO">@item.NOMBRE</option>
+                                    }
+                                }
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="form-group row mb-1">
+                        <label for="Modal-Eventos-Descripcion" class="col-sm-2 col-form-label text-right">Descripción</label>
+                        <div class="col-sm-10">
+                            <textarea id="Modal-Eventos-Descripcion" class="form-control textArea" placeholder="Ingrese la descripción del evento" autocomplete="off"></textarea>
+                        </div>
+                    </div>
+
+                    <div class="form-group row mb-1">
+                        <label for="Modal-Eventos-Banner" class="col-sm-2 col-form-label text-right">
+                            Banner(*)
+                        </label>
+                        <div class="col-sm-9">
+                            <div class="input-group">
+                                <div class="custom-file">
+                                    <input type="file" class="custom-file-input" id="Modal-Eventos-Banner" name="Modal-Eventos-Banner" accept="image/apng, image/avif, image/gif, image/jpeg, image/png, image/svg+xml, image/webp" onchange="Eventos.onFileSelectedEvento(event);">
+                                    <label class="custom-file-label" id="txt_file_text" for="Modal-Eventos-Banner">Seleccionar Banner</label>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="">
+                            <button type="button" class="btn btn-info btn-icon  btn-icon-mini btn-round" id="Modal-Eventos-Banner-Ver">
+                                <i class="material-icons">pageview</i>
+                            </button>
+                        </div>
+
+                    </div>
+
+                    <div class="form-group row mb-1">
+                        <label for="Modal-Eventos-Formato" class="col-sm-2 col-form-label text-right">
+                            Formato de certificado
+                        </label>
+                        <div class="col-sm-9">
+                            <div class="input-group">
+                                <div class="custom-file">
+                                    <input type="file" class="custom-file-input" id="Modal-Eventos-Formato" name="Modal-Eventos-Formato" accept="image/apng, image/avif, image/gif, image/jpeg, image/png, image/svg+xml, image/webp" onchange="Eventos.onFileSelectedFormato(event);">
+                                    <label class="custom-file-label" id="Modal-Eventos-Formato-Label" for="Modal-Eventos-Formato">Seleccionar Formato</label>
+                                </div>
+                            </div>
+                        </div>
+                         <div class="">
+                            <button type="button" class="btn btn-info btn-icon  btn-icon-mini btn-round" id="Modal-Eventos-Formato-Ver">
+                                <i class="material-icons">pageview</i>
+                            </button>
+                        </div>
+                    </div>
+
+                    <div class="form-group row mb-1">
+                        <label for="Modal-Eventos-Wasape" class="col-sm-2 col-form-label text-right">
+                            Whatsapp Informativo
+                        </label>
+                        <div class="col-sm-10">
+                            <input id="Modal-Eventos-Wasape" name="Modal-Eventos-Wasape" class="form-control" type="text" value="" maxlength="250" autocomplete="off" />
+                        </div>
+                    </div>
+
+
+                    <div class="form-group row mb-1">
+                        <label for="Modal-Eventos-Estado" class="col-sm-2 col-form-label text-right">Estado(*)</label>
+                        <div class="col-sm-4">
+                            <select name="Modal-Eventos-Estado" id="Modal-Eventos-Estado" class="form-control" style="width: 100%;">
+                                <option value="0">Seleccione</option>
+                                @{
+                                    foreach (var item in Estados)
+                                    {
+                                        <option value="@item.ID_ESTADO">@item.NOMBRE</option>
+                                    }
+                                }
+                            </select>
+                        </div>
+
+                        <div class="col-sm-3">
+                            <div class="checkbox mt-2">
+                                <input id="Modal-Eventos-Ticket" type="checkbox">
+                                <label for="Modal-Eventos-Ticket">
+                                    Ticket
+                                </label>
+                            </div>
+                        </div>
+
+                        <div class="col-sm-3">
+                            <div class="checkbox mt-2">
+                                <input id="Modal-Eventos-Correo" type="checkbox">
+                                <label for="Modal-Eventos-Correo">
+                                    Email
+                                </label>
+                            </div>
+                        </div>
+
+                    </div>
+                     
+                    <div class="form-group row mb-1">
+                        <label for="Modal-Eventos-Inicio" class="col-sm-2 col-form-label text-right">
+                            Fecha(s) del evento
+                        </label>
+                        <div class="col-sm-10">
+                            <div class="input-group date" id="Modal-Eventos-Inicio" data-date-format="dd/mm/yyyy">
+                                <input type="text" readonly class="form-control date" style="background-color: #0000;">
+                                <span class="input-group-addon"><i class="zmdi zmdi-calendar"></i> </span>
+                            </div>
+                        </div>
+
+                    </div>
+
+                    <div class="form-group row mb-1">
+                        <label for="Modal-Eventos-HInicio" class="col-sm-2 col-form-label text-right">
+                            Hora Inicio(*)
+                        </label>
+                        <div class="col-sm-4">
+                            <input id="Modal-Eventos-HInicio" name="Modal-Eventos-HInicio" class="form-control" type="text" value="" autocomplete="off" />
+                        </div>
+                        <label for="Modal-Eventos-HFin" class="col-sm-2 col-form-label text-right">
+                            Hora Fin(*)
+                        </label>
+                        <div class="col-sm-4">
+                            <input id="Modal-Eventos-HFin" name="Modal-Eventos-HFin" class="form-control" type="text" value="" autocomplete="off" />
+                        </div>
+                    </div>
+
+                    <div class="form-group row mb-1">
+                        <label for="Modal-Eventos-Lugar" class="col-sm-2 col-form-label text-right">Lugar</label>
+                        <div class="col-sm-10">
+                            <input id="Modal-Eventos-Lugar" name="Modal-Eventos-Lugar" class="form-control" max="250" type="text" value="" autocomplete="off" />
+                        </div>
+                    </div>
+
+                    <div class="form-group row mb-1">
+                        <label for="Modal-Eventos-Distrito" class="col-sm-2 col-form-label text-right">Ubigeo</label>
+                        <div class="col-sm-10">
+                            <select name="Modal-Eventos-Distrito" id="Modal-Eventos-Distrito" style="width: 100%;">
+                                <option value="0">Ninguno</option>
+                                @{
+                                    foreach (var item in Distritos)
+                                    {
+                                        <option value="@item.ID_DISTRITO">@item.DISTRITO, @item.PROVINCIA, @item.DEPARTAMENTO</option>
+                                    }
+                                }
+                            </select>
+                        </div>
+
+                    </div>
+
+
+                    <div class="form-group row mb-1">
+                        <label for="Modal-Eventos-Enlace" class="col-sm-2 col-form-label text-right">
+                            Sala Virtual
+                        </label>
+                        <div class="col-sm-10">
+                            <input id="Modal-Eventos-Enlace" name="Modal-Eventos-Enlace" class="form-control" type="text" value="" maxlength="250" autocomplete="off" />
+                        </div>
+                    </div> 
+
+                    <div class="form-group row mb-1">
+                        <label for="Modal-Eventos-Encuesta" class="col-sm-2 col-form-label text-right">Encuesta</label>
+                        <div class="col-sm-8">
+                            <select name="Modal-Eventos-Encuesta" id="Modal-Eventos-Encuesta" class="form-control" style="width: 100%;">
+                                <option value="0">Ninguno</option>
+                                @{
+                                    foreach (var item in Encuestas)
+                                    {
+                                        <option value="@item.ID_ENCUESTA">@item.NOMBRE</option>
+                                    }
+                                }
+                            </select>
+                        </div>
+                        <div class="col-sm-2">
+                            <button type="button" class="btn btn-info btn-sm" id="Modal-Eventos-Encuesta-Horarios">Horarios</button>
+                        </div>
+                    </div>
+
+                    <div class="form-group row mb-1">
+                        <label for="Modal-Eventos-Cuestionario" class="col-sm-2 col-form-label text-right">Cuestionario</label>
+                        <div class="col-sm-8">
+                            <select name="Modal-Eventos-Cuestionario" id="Modal-Eventos-Cuestionario" class="form-control" style="width: 100%;">
+                                <option value="0">Ninguno</option>
+                                @{
+                                    foreach (var item in Cuestionarios)
+                                    {
+                                        <option value="@item.ID_CUESTIONARIO">@item.NOMBRE</option>
+                                    }
+                                }
+                            </select>
+                        </div>
+                        <div class="col-sm-2">
+                            <button type="button"  class="btn btn-info btn-sm" id="Modal-Eventos-Cuestionario-Horarios">Horarios</button>
+                        </div>
+                    </div>
+
+                    <div class="form-group row mb-1">
+                        <label class="col-sm-2 col-form-label text-right">&nbsp;</label>
+                        <div class="col-sm-3">
+                            <div class="checkbox mt-2">
+                                <input id="Modal-Eventos-Requiere" type="checkbox">
+                                <label for="Modal-Eventos-Requiere">
+                                    Documentos
+                                </label>
+                            </div>
+                        </div>
+
+                        <div class="col-sm-7">
+                            <select name="Modal-Eventos-Documentos" id="Modal-Eventos-Documentos" multiple="multiple" style="width: 100%;">
+
+                                @{
+                                    foreach (var item in Documentos)
+                                    {
+                                        <option value="@item.ID_TIPO_DOCUMENTO_REQUERIDO">@item.NOMBRE</option>
+                                    }
+                                }
+                            </select>
+                        </div>
+                    </div>
+                    
+                </form>
+
+            </div>
+            <div class="modal-footer">
+                <div class="row" style="width: 100%">
+                    <div class="col-sm-6 text-left">
+                        <button id="Eventos-Cancelar" type="button" class="btn" data-dismiss="modal">
+                            Cancelar
+                        </button>
+                    </div>
+
+                    <div class="col-sm-6 text-right">
+                        <button id="Eventos-Guardar" type="button" class="btn btn-success pull-right">
+                            <i class="material-icons">check_circle</i> Guardar
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- /.modal-content -->
+    </div>
+    <!-- /.modal-dialog -->
+</div>
+
+ <!-- Modal Evento Horario-->
+<div class="modal fade" id="Modal-Eventos-Horario" aria-hidden="true" data-codigo="">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="title">Horario del evento</h4>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">×</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <div class="row">
+                        <div class="table-responsive">
+                            <table class="table m-b-0" id="Modal-Eventos-Horario-Tabla" style="width: 100%; border-collapse: collapse !important;">
+                                <thead>
+                                    <tr>
+                                        <th>#</th>
+                                        <th style="width: 40%;">Fecha</th>
+                                        <th style="width: 20%;">Hora Inicio</th>
+                                        <th style="width: 20%;">Hora Inicio</th>
+                                        <th style="width: 20%;">&nbsp;</th>
+                                        <th style="width: 20%;">&nbsp;</th>
+                                    </tr>
+                                </thead>
+                                <tbody></tbody>
+                            </table>
+                        </div>
+                    </div>
+
+            </div>
+
+            <div class="modal-footer">
+                <div class="row" style="width: 100%">
+                    <div class="col-sm-6 text-left">
+                        <button type="button" class="btn" data-dismiss="modal">
+                            Cancelar
+                        </button>
+                    </div>
+
+                    <div class="col-sm-6 text-right">
+                        <button id="Modal-Eventos-Horario-Guardar" type="button" class="btn btn-success pull-right">
+                            <i class="material-icons">check_circle</i> Guardar
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+</div>
+<!-- Fin - Modal  -->
+
+<!-- Modal Evento Eliminar-->
+<div class="modal fade" id="Modal-Eventos-Eliminar" aria-hidden="true" data-codigo="">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="title">Elimnar evento</h4>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">×</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <h4>Confirme, desea eliminar el evento seleccionado?</h4>
+                <h3 id="Modal-Eventos-Eliminar-Nombre" class="text-warning"></h3>
+                <div class="g-recaptcha" data-sitekey="@apiCaptcha"></div>
+
+            </div>
+
+            <div class="modal-footer">
+                <div class="row" style="width: 100%">
+                    <div class="col-sm-6 text-left">
+                        <button type="button" class="btn" data-dismiss="modal">
+                            Cancelar
+                        </button>
+                    </div>
+
+                    <div class="col-sm-6 text-right">
+                        <button id="Modal-Eventos-Eliminar-Guardar" type="button" class="btn btn-danger pull-right">
+                            <i class="material-icons">remove_circle</i> Si, eliminar
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+</div>
+<!-- Fin - Modal  -->
+
+<!-- Modal Evento Tablero-->
+<div class="modal fade" id="Modal-Eventos-Tablero" aria-hidden="true" data-codigo="">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="title">Tablero de control de eventos</h4>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">×</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <iframe id="Modal-Eventos-Tablero-Iframe" style="width: 100%; height: 500px; border: 0; overflow: auto">
+
+                </iframe>
+
+            </div>
+
+            <div class="modal-footer">
+                <div class="row" style="width: 100%">
+                    <div class="col-sm-6 text-left">
+                        <button type="button" class="btn" data-dismiss="modal">
+                            Cancelar
+                        </button>
+                    </div>                    
+                </div>
+            </div>
+
+        </div>
+    </div>
+</div>
+<!-- Fin - Modal  -->
+
+<!-- Modal QR Evento -->
+<div class="modal fade" id="Modal-Eventos-QR" aria-hidden="true">
+    <div class="modal-dialog modal-sm">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title"><i class="material-icons" style="vertical-align:middle">qr_code</i> Código QR del Evento</h4>
+            </div>
+            <div class="modal-body text-center">
+                <p id="Modal-QR-EventoId" class="text-muted small mb-1"></p>
+                <div id="Modal-QR-Container" style="display:inline-block; padding:12px; background:#fff; border:1px solid #ddd; border-radius:8px;"></div>
+                <canvas id="Modal-QR-Canvas" style="display:none"></canvas>
+                <p class="mt-2 mb-0"><small class="text-muted">Muestra este QR en el evento para que los participantes registren su asistencia</small></p>
+                <p id="Modal-QR-Data" class="mt-1" style="font-size:11px; color:#888; word-break:break-all;"></p>
+            </div>
+            <div class="modal-footer text-center">
+                <button type="button" class="btn btn-default" data-dismiss="modal">Cerrar</button>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- Fin Modal QR -->
+
+<script src="https://www.google.com/recaptcha/api.js" async defer></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
+
+<script src="~/assets/js/evento.js?v=@DateTime.UtcNow"></script>
+<script>     
+    Eventos.Init();
+
+</script>

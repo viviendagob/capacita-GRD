@@ -1,0 +1,122 @@
+﻿$white: #ffffff;
+$blue-grey-400: #78909c !default;
+$grey-900: #212121 !default;
+$red-400: #e82226 !default;
+$red-500: #ef1a1e !default;
+$red-600: #f31217 !default;
+
+.theme-red{
+    .authentication{
+        background:$red-500;
+        &::before{
+            opacity: 0.07;
+        }
+        .company_detail{            
+            h3, p{
+                opacity: 1;
+            }
+        }
+
+        .navbar, .page-header{
+            background: $red-500 !important;
+        }
+    }
+
+    .btn-primary{
+        background: $red-500;
+        &:active,
+        &:hover,
+        &:focus{
+            background: $red-400;
+        }
+        &.btn-simple{
+            border-color: $red-500;
+            color: $red-500;
+            background: transparent;
+        }
+    }
+
+    .page-loader-wrapper{
+        background: $red-500;
+    }
+
+    .checkbox input[type="checkbox"]:checked+label::after{
+        border-color:$red-500;
+        background: $red-500;
+        color: white;
+    }   
+
+    .nav-tabs{
+        .nav-link.active {
+            border: 1px solid $red-500 !important;
+            background: $red-500;
+            color: $white;
+        }
+    }
+
+    .card{
+        .header{
+            h2{
+                &:before{
+                    background: $red-500;
+                }
+            }
+            .dropdown-menu{
+                li{
+                    a{
+                        &:hover{
+                            background-color: $red-500;
+                            color: $white;
+                        }
+                    }
+                }
+            }
+        }
+    }
+
+    .chat-widget{
+        li.left{
+            .message{
+                background: $red-500;
+            }
+        }
+    }
+
+    .menu-container{
+        background: $red-500;
+
+        .h-menu{
+
+            .open.active{
+                .active{
+                    a{
+                        color: $red-500;
+                    }
+                }
+            }
+
+            > li a{
+                color: $white;
+                opacity: 0.7;
+
+                &:hover{
+                    color: $white;
+                    opacity: 1;
+                }
+            }
+        }
+    }
+
+    .fc .fc-toolbar .fc-right .fc-state-active{
+        background:$red-500;
+        color: $white;
+    }
+    .form-control:focus,
+    .form-control:focus+.input-group-addon,
+    .form-control:focus ~ .input-group-addon,
+    .input-group-focus .input-group-addon{
+        border-color: $red-500;
+        background: $white;
+    }
+}
+

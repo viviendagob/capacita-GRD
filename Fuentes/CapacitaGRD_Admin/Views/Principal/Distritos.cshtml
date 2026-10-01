@@ -1,0 +1,196 @@
+﻿@{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+@using CapacitaGRD_Admin.DTOs
+@using Newtonsoft.Json
+@using Newtonsoft.Json.Serialization
+
+@{    
+    var Paises = ViewData["Paises"] as List<PaisDTO>;
+    var jsonPaises = JsonConvert.SerializeObject(Paises, Formatting.Indented, new JsonSerializerSettings { ContractResolver = new CamelCasePropertyNamesContractResolver() }).ToString().Replace("\r\n", String.Empty);
+} 
+ 
+    <section class="content">
+        <div class="container-fluid">
+            <div class="row clearfix">
+                <div class="col-lg-12">
+                    <div class="card">
+                        <div class="header">
+                            <h2><strong>Maestros - Distritos </strong></h2>
+
+                        </div>
+
+                        <div class="body">
+                            <div class="row clearfix">                            
+                                <div class="col-lg-3 col-md-3 col-sm-3">
+                                <b>País</b>
+                                <select name="Distritos-Buscar-Pais" id="Distritos-Buscar-Pais" style="width: 100%;">
+                                    <option value="0">Seleccione</option>
+                                    @{
+                                        foreach (var item in Paises)
+                                        {
+                                            <option value="@item.ID_PAIS">@item.NOMBRE</option>
+                                        }
+                                    }
+                                </select>
+                                </div>
+
+                                <div class="col-lg-5 col-md-5 col-sm-5">
+                                <b>Búsqueda</b>
+                                    <div class="form-group">
+                                        <input type="text" class="form-control" id="Distritos-Buscar-Nombre" placeholder="Nombre distrito" autocomplete="off">
+                                    </div>
+                                </div>
+
+                                <div class="col-lg-4 col-md-4 col-sm-4 mt-3">
+                                    <button type="button" id="Distritos-Buscar" class="btn btn-raised btn-primary btn-round waves-effect m-l-20">Buscar</button>
+                                    <button type="button" id="Distritos-Agregar" class="btn btn-raised btn-default btn-round waves-effect m-l-20">Agregar</button>
+                                </div>
+                            </div>
+                        </div>
+
+                        <br />
+
+                        <div class="body">
+
+
+                            <div class="tab-content">
+                                <div class="table-responsive">
+                                    <table class="table table-bordered table-hover dataTable dtr-inline" style="width: 100%;" id="Distritos-Tabla">
+                                        <thead>
+                                            <tr>
+                                                <th>Id</th>
+                                                <th>Ubigeo</th>
+                                                <th>Capital</th>                                            
+                                                <th>Distrito</th>
+                                                <th>Provincia</th>
+                                                <th>Departamento</th>
+                                                <th>&nbsp;</th>
+                                                <th>&nbsp;</th>
+                                            </tr>
+
+                                        </thead>
+                                        <tbody>
+                                            
+                                        </tbody>
+                                    </table>
+                                </div>
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </section>
+
+    <!-- Modal Distritos -->
+    <div class="modal fade" id="Modal-Distritos" aria-hidden="true" data-codigo="">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h4 class="title">Datos del distrito</h4>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">×</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+
+                    <div class="form-group row mb-1">
+                        <label for="Modal-Distritos-Id" class="col-sm-3 col-form-label text-right">Id</label>
+                        <div class="col-sm-4">
+                            <input id="Modal-Distritos-Id" name="Modal-Distritos-Id" class="form-control" type="text" value="" disabled="" />
+                        </div>
+                    </div>
+
+                    <div class="form-group row mb-1">
+                        <label for="Modal-Distritos-Ubigeo" class="col-sm-3 col-form-label text-right">Ubigeo</label>
+                        <div class="col-sm-4">
+                            <input id="Modal-Distritos-Ubigeo" name="Modal-Distritos-Codigo" class="form-control" type="text" value="" maxlength="6" autocomplete="off" />
+                        </div>
+
+                    </div>
+
+                    <div class="form-group row mb-1">
+                        <label for="Modal-Distritos-Capital" class="col-sm-3 col-form-label text-right">Capital</label>
+                        <div class="col-sm-9">
+                            <input id="Modal-Distritos-Capital" name="Modal-Distritos-Nombre" class="form-control" type="text" value="" maxlength="250" autocomplete="off" />
+                        </div>
+                    </div>
+
+                    <div class="form-group row mb-1">
+                        <label for="Modal-Distritos-Categoria" class="col-sm-3 col-form-label text-right">Categoria</label>
+                        <div class="col-sm-4">
+                        <input id="Modal-Distritos-Categoria" name="Modal-Distritos-Categoria" class="form-control" type="text" value="" maxlength="1" autocomplete="off" />
+                        </div>
+                    </div>
+
+                    <div class="form-group row mb-1">
+                        <label for="Modal-Distritos-Distrito" class="col-sm-3 col-form-label text-right">Distrito</label>
+                        <div class="col-sm-9">
+                            <input id="Modal-Distritos-Distrito" name="Modal-Distritos-Distrito" class="form-control" type="text" value="" maxlength="250" autocomplete="off" />
+                        </div>
+                    </div>
+
+                    <div class="form-group row mb-1">
+                        <label for="Modal-Distritos-Provincia" class="col-sm-3 col-form-label text-right">Provincia</label>
+                        <div class="col-sm-9">
+                            <input id="Modal-Distritos-Provincia" name="Modal-Distritos-Distrito" class="form-control" type="text" value="" maxlength="250" autocomplete="off" />
+                        </div>
+                    </div>
+
+                    <div class="form-group row mb-1">
+                        <label for="Modal-Distritos-Departamento" class="col-sm-3 col-form-label text-right">Departamento</label>
+                        <div class="col-sm-9">
+                            <input id="Modal-Distritos-Departamento" name="Modal-Distritos-Distrito" class="form-control" type="text" value="" maxlength="250" autocomplete="off" />
+                        </div>
+                    </div>
+
+                    <div class="form-group row mb-1">
+                        <label for="Modal-Distritos-Pais" class="col-sm-3 col-form-label text-right">Pais</label>
+                        <div class="col-sm-9">
+                            <select name="Modal-Distritos-Pais" id="Modal-Distritos-Pais" style="width: 100%;">
+                                <option value="0">Seleccione</option>
+                                @{
+                                foreach (var item in Paises)
+                                {
+                                                <option value="@item.ID_PAIS">@item.NOMBRE</option>
+                                }
+                                }
+                            </select>
+                        </div>
+                    </div>
+
+     
+                </div>
+
+                <div class="modal-footer">
+                    <div class="row" style="width: 100%">
+                        <div class="col-sm-6 text-left">
+                            <button id="Distritos-Cancelar" type="button" class="btn" data-dismiss="modal">
+                                Cancelar
+                            </button>
+                        </div>
+
+                        <div class="col-sm-6 text-right">
+                            <button id="Distritos-Guardar" type="button" class="btn btn-success pull-right">
+                                <i class="material-icons">check_circle</i> Guardar
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- /.modal-content -->
+        </div>
+        <!-- /.modal-dialog -->
+    </div>
+    <!-- Fin - Modal  -->
+
+    <script src="~/assets/js/distrito.js?v=@DateTime.UtcNow"></script>
+    <script>
+
+        Distritos.Paises = JSON.parse("@jsonPaises".replaceAll("&quot;", "\""));        
+        Distritos.Init();
+
+    </script>

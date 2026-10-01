@@ -1,0 +1,105 @@
+@{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+@using CapacitaGRD_Admin.DTOs
+@{
+    var Eventos = ViewData["Eventos"] as List<EventoDTO>;
+}
+
+<section class="content">
+    <div class="container-fluid">
+        <div class="row clearfix">
+            <div class="col-lg-12">
+                <div class="card">
+                    <div class="header">
+                        <h2><strong>Constancias</strong> de participación</h2>
+                    </div>
+
+                    <div class="body">
+                        <div class="row clearfix">
+                            <div class="col-lg-6 col-md-6 col-sm-6">
+                                <b>Evento</b>
+                                <select name="Constancias-Evento" id="Constancias-Evento" style="width: 100%;">
+                                    <option value="0">Seleccione</option>
+                                    @{
+                                        if (Eventos is not null)
+                                        {
+                                            foreach (var item in Eventos)
+                                            {
+                                                <option value="@item.ID_EVENTO">@item.NOMBRE</option>
+                                            }
+                                        }
+                                    }
+                                </select>
+                            </div>
+                            <div class="col-lg-6 col-md-6 col-sm-6 mt-4">
+                                <button type="button" id="Constancias-Buscar" class="btn btn-raised btn-primary btn-round waves-effect">Buscar elegibles</button>
+                            </div>
+                        </div>
+
+                        <div class="table-responsive">
+                            <table class="table table-bordered table-hover dataTable dtr-inline" style="width: 100%;" id="Constancias-Tabla">
+                                <thead>
+                                    <tr>
+                                        <th>Num Documento</th>
+                                        <th>Nombres</th>
+                                        <th>Ape Paterno</th>
+                                        <th>Ape Materno</th>
+                                        <th>Sesiones Oblig.</th>
+                                        <th>Sesiones Asist.</th>
+                                        <th>Encuesta</th>
+                                        <th>Apto</th>
+                                        <th>Constancia</th>
+                                        <th>Acción</th>
+                                    </tr>
+                                </thead>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-lg-12">
+                <div class="card">
+                    <div class="header">
+                        <h2><strong>Buscar</strong> constancias generadas</h2>
+                    </div>
+
+                    <div class="body">
+                        <div class="row clearfix">
+                            <div class="col-lg-4 col-md-4 col-sm-4">
+                                <b>Documento</b>
+                                <input type="text" class="form-control" id="Constancias-Buscar-Documento" placeholder="N° documento" />
+                            </div>
+                            <div class="col-lg-4 col-md-4 col-sm-4">
+                                <b>Código</b>
+                                <input type="text" class="form-control" id="Constancias-Buscar-Codigo" placeholder="CGRD-2026-XXXXXXXX" />
+                            </div>
+                            <div class="col-lg-4 col-md-4 col-sm-4 mt-4">
+                                <button type="button" id="Constancias-Buscar-Boton" class="btn btn-raised btn-primary btn-round waves-effect">Buscar</button>
+                            </div>
+                        </div>
+
+                        <div class="table-responsive">
+                            <table class="table table-bordered table-hover dataTable dtr-inline" style="width: 100%;" id="Constancias-Buscar-Tabla">
+                                <thead>
+                                    <tr>
+                                        <th>Código</th>
+                                        <th>Estado</th>
+                                        <th>Fecha Generación</th>
+                                        <th>Usuario</th>
+                                        <th>Descargas</th>
+                                        <th>Acción</th>
+                                    </tr>
+                                </thead>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<script src="~/assets/js/constancias.js?v=@DateTime.UtcNow.Ticks"></script>

@@ -1,0 +1,79 @@
+@{
+    Layout = null;
+}
+@using CapacitaGRD_Admin.DTOs
+@model EventoEstadisticaDTO
+
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Tablero de control de eventos</title>
+    <link rel="stylesheet" href="~/assets/plugins/bootstrap/css/bootstrap.min.css">
+    <link rel="stylesheet" href="~/assets/css/main.css">
+    <link rel="stylesheet" href="~/assets/css/color_skins.css">
+    <style>
+        body {
+            padding: 20px;
+            background-color: #f5f5f5;
+        }
+
+        .tablero-card {
+            text-align: center;
+            padding: 20px;
+            margin-bottom: 20px;
+        }
+
+        .tablero-card h2 {
+            margin: 0;
+            font-weight: bold;
+        }
+
+        .tablero-card p {
+            margin: 5px 0 0;
+            color: #777;
+        }
+    </style>
+</head>
+<body>
+    <div class="row">
+        <div class="col-sm-4">
+            <div class="card tablero-card">
+                <h2 class="text-primary">@Model.TOTAL_EVENTOS</h2>
+                <p>Total de eventos</p>
+            </div>
+        </div>
+        <div class="col-sm-4">
+            <div class="card tablero-card">
+                <h2 class="text-success">@Model.EVENTOS_ACTIVOS</h2>
+                <p>Eventos activos</p>
+            </div>
+        </div>
+        <div class="col-sm-4">
+            <div class="card tablero-card">
+                <h2 class="text-info">@Model.EVENTOS_REALIZADOS</h2>
+                <p>Eventos realizados</p>
+            </div>
+        </div>
+        <div class="col-sm-4">
+            <div class="card tablero-card">
+                <h2 class="text-danger">@Model.EVENTOS_CANCELADOS</h2>
+                <p>Eventos cancelados</p>
+            </div>
+        </div>
+        <div class="col-sm-4">
+            <div class="card tablero-card">
+                <h2 class="text-primary">@Model.TOTAL_CUPOS</h2>
+                <p>Cupos totales programados</p>
+            </div>
+        </div>
+        <div class="col-sm-4">
+            <div class="card tablero-card">
+                <h2 class="text-primary">@Model.TOTAL_INSCRITOS</h2>
+                <p>Total de inscritos</p>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

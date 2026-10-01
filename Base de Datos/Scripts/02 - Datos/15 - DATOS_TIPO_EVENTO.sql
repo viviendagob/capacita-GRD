@@ -1,0 +1,4 @@
+INSERT INTO BD_ugerdes_capacitagrd.dbo.MAE_TIPO_EVENTO (NOMBRE) VALUES
+	 (N'CURSO'),
+	 (N'SEMINARIO'),
+	 (N'TALLER');

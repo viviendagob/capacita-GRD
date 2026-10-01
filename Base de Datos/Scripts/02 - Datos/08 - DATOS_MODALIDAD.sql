@@ -1,0 +1,4 @@
+INSERT INTO BD_ugerdes_capacitagrd.dbo.MAE_MODALIDAD (NOMBRE) VALUES
+	 (N'PRESENCIAL'),
+	 (N'VIRTUAL'),
+	 (N'HIBRIDA');

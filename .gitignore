@@ -1,0 +1,36 @@
+# ===== .NET =====
+bin/
+obj/
+.vs/
+*.user
+*.suo
+*.userosscache
+*.sln.docstates
+PublishProfiles/*.pubxml.user
+
+# ===== Flutter / Dart =====
+**/build/
+.dart_tool/
+.flutter-plugins
+.flutter-plugins-dependencies
+.packages
+.pub-cache/
+.pub/
+*.iml
+.idea/
+
+# Android
+**/android/.gradle/
+**/android/local.properties
+**/android/**/gradle-wrapper.jar
+**/android/key.properties
+
+# iOS
+**/ios/Flutter/.last_build_id
+**/ios/Pods/
+**/ios/Flutter/Flutter.framework
+**/ios/Flutter/Flutter.podspec
+
+# ===== OS / editor =====
+Thumbs.db
+.DS_Store

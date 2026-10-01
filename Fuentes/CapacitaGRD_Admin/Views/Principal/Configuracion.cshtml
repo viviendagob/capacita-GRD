@@ -1,0 +1,105 @@
+﻿@{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+@using CapacitaGRD_Admin.DTOs
+@model ConfiguracionDTO;
+
+<section class="content">
+    <div class="container-fluid">
+        <div class="row clearfix">
+            <div class="col-lg-12">
+                <div class="card">
+                    <div class="header">
+                        <h2><strong>Configuración</strong></h2>
+
+
+                        <div class="body">
+                            <div class="row clearfix">
+                                 
+                                <div class="col-lg-6 col-md-6 col-sm-6 mt-3">
+                                    <button type="button" id="Configuracion-Guardar" class="btn btn-raised btn-success btn-round waves-effect m-l-20">Guardar cambios</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+  
+                    <div class="body">
+
+                        <ul class="nav nav-tabs" role="tablist">
+                            <li class="nav-item"><a class="nav-link active" data-toggle="tab" href="#Configuracion-Notificacion-Texto"><i class="material-icons">email</i> Notificación </a></li>
+                            <li class="nav-item"><a class="nav-link" data-toggle="tab" href="#Configuracion-Notificacion-Adjunto"><i class="material-icons">attachment</i> Notificación con adjunto</a></li>
+                            <li class="nav-item"><a class="nav-link" data-toggle="tab" href="#Configuracion-Certificado"> <i class="material-icons">event_note</i> Certificado </a></li>
+                            <li class="nav-item"><a class="nav-link" data-toggle="tab" href="#Configuracion-Constancia"> <i class="material-icons">event_note</i> Constancia </a></li>
+                            <li class="nav-item"><a class="nav-link" data-toggle="tab" href="#Configuracion-Documentos"> <i class="material-icons">insert_drive_file</i> Documentos pendientes </a></li>
+                        </ul>
+
+                        <!-- Tab panes -->
+                        <div class="tab-content">
+                            <div role="tabpanel" class="tab-pane in active" id="Configuracion-Notificacion-Texto">
+                                <b>Notificación sin adjunto</b>
+                                <div>
+                                    <textarea id="Configuracion-Notificacion-Texto-Editor">
+                                         @Model.TEXTO_NOTIFICACION
+                                    </textarea>
+
+                                </div>
+                            </div>
+
+                            <div role="tabpanel" class="tab-pane" id="Configuracion-Notificacion-Adjunto">
+                                <b>Notificación con adjunto</b>
+                                <div>
+                                    <textarea id="Configuracion-Notificacion-Adjunto-Editor">    
+                                        @Model.TEXTO_NOTIFICACION_ADJUNTO
+                                    </textarea>
+
+                                </div>
+                            </div>
+
+
+                            <div role="tabpanel" class="tab-pane" id="Configuracion-Certificado">
+                                <b>Emisión de certificado</b>
+                                <div>
+                                    <textarea id="Configuracion-Certificado-Editor">      
+                                        @Model.TEXTO_CERTIFICADO
+                                    </textarea>
+
+                                </div>
+                            </div>
+
+                            <div role="tabpanel" class="tab-pane" id="Configuracion-Constancia">
+                                <b>Emisión de certificado</b>
+                                <div>
+                                    <textarea id="Configuracion-Constancia-Editor">      
+                                        @Model.TEXTO_CONSTANCIA
+                                    </textarea>
+
+                                </div>
+                            </div>
+
+                            <div role="tabpanel" class="tab-pane" id="Configuracion-Documentos">
+                                <b>Documentos pendientes</b>
+                                <div>
+                                    <textarea id="Configuracion-Documentos-Editor">          
+                                        @Model.TEXTO_DOCUMENTO
+                                    </textarea>
+
+                                </div>
+                            </div>
+
+
+                        </div>
+                         
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+</section>
+ 
+<script src="~/assets/js/configuracion.js?v=@DateTime.UtcNow"></script>
+<script>
+
+    Configuracion.Init();
+
+</script>

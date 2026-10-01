@@ -1,0 +1,114 @@
+﻿@using CapacitaGRD_Admin.DTOs
+<section class="content">
+    <div class="container-fluid">
+        <div class="row clearfix">
+            <div class="col-lg-12">
+                <div class="card">
+                    <div class="header">
+                        <h2><strong>Maestros - Profesiones </strong></h2>
+
+                    </div>
+
+                    <div class="body">
+                        <div class="row clearfix">                            
+                            <div class="col-lg-6 col-md-6 col-sm-6">
+                                <b>Búsqueda</b>
+                                <div class="form-group">
+                                    <input type="text" class="form-control" id="Profesiones-Buscar-Nombre" placeholder="Nombre de profesión" autocomplete="off">
+                                </div>
+                            </div>
+
+                            <div class="col-lg-6 col-md-6 col-sm-6 mt-3">
+                                <button type="button" id="Profesiones-Buscar" class="btn btn-raised btn-primary btn-round waves-effect m-l-20">Buscar</button>
+                                <button type="button" id="Profesiones-Agregar" class="btn btn-raised btn-default btn-round waves-effect m-l-20">Agregar</button>
+                            </div>
+                        </div>
+                    </div>
+                    <br />
+
+                    <div class="body">
+
+
+                        <div class="tab-content">
+                            <div class="table-responsive">
+                                <table class="table table-bordered table-hover dataTable dtr-inline" style="width: 100%;" id="Profesiones-Tabla">
+                                    <thead>
+                                        <tr>
+                                            <th>Id</th>
+                                            <th>Nombre</th>
+                                            <th>&nbsp;</th>
+                                            <th>&nbsp;</th>
+                                        </tr>
+
+                                    </thead>
+                                    <tbody>
+                                       
+                                    </tbody>
+                                </table>
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+</section>
+
+<!-- Modal Profesiones -->
+<div class="modal fade" id="Modal-Profesiones" aria-hidden="true" data-codigo="">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="title">Datos del país</h4>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">×</span>
+                </button>
+            </div>
+            <div class="modal-body">
+
+                <div class="form-group row mb-1">
+                    <label for="Modal-Profesiones-Id" class="col-sm-2 col-form-label text-right">Id</label>
+                    <div class="col-sm-4">
+                        <input id="Modal-Profesiones-Id" name="Modal-Profesiones-Id" class="form-control" type="text" value="" disabled="" />
+                    </div>
+                </div> 
+
+                <div class="form-group row mb-1">
+                    <label for="Modal-Profesiones-Nombre" class="col-sm-2 col-form-label text-right">Nombre</label>
+                    <div class="col-sm-10">
+                        <input id="Modal-Profesiones-Nombre" name="Modal-Profesiones-Nombre" class="form-control" type="text" value="" maxlength="250" autocomplete="off" />
+                    </div>
+                </div>
+                 
+            </div>
+
+            <div class="modal-footer">
+                <div class="row" style="width: 100%">
+                    <div class="col-sm-6 text-left">
+                        <button id="Profesiones-Cancelar" type="button" class="btn" data-dismiss="modal">
+                            Cancelar
+                        </button>
+                    </div>
+
+                    <div class="col-sm-6 text-right">
+                        <button id="Profesiones-Guardar" type="button" class="btn btn-success pull-right">
+                            <i class="material-icons">check_circle</i> Guardar
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- /.modal-content -->
+    </div>
+    <!-- /.modal-dialog -->
+</div>
+<!-- Fin - Modal  -->
+
+<script src="~/assets/js/profesion.js?v=@DateTime.UtcNow"></script>
+<script>
+
+    Profesiones.Init();
+
+</script>

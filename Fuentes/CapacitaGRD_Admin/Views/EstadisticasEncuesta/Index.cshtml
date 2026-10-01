@@ -1,0 +1,98 @@
+@{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+@using CapacitaGRD_Admin.DTOs
+@{
+    var Eventos = ViewData["Eventos"] as List<EventoDTO>;
+}
+
+<section class="content">
+    <div class="container-fluid">
+        <div class="row clearfix">
+            <div class="col-lg-12">
+                <div class="card">
+                    <div class="header">
+                        <h2><strong>Estadísticas</strong> de encuesta de satisfacción</h2>
+                    </div>
+
+                    <div class="body">
+                        <div class="row clearfix">
+                            <div class="col-lg-6 col-md-6 col-sm-6">
+                                <b>Evento</b>
+                                <select name="EstadisticasEncuesta-Evento" id="EstadisticasEncuesta-Evento" style="width: 100%;">
+                                    <option value="0">Seleccione</option>
+                                    @{
+                                        if (Eventos is not null)
+                                        {
+                                            foreach (var item in Eventos)
+                                            {
+                                                <option value="@item.ID_EVENTO">@item.NOMBRE</option>
+                                            }
+                                        }
+                                    }
+                                </select>
+                            </div>
+                            <div class="col-lg-6 col-md-6 col-sm-6 mt-4">
+                                <button type="button" id="EstadisticasEncuesta-Buscar" class="btn btn-raised btn-primary btn-round waves-effect">Consultar</button>
+                                <button type="button" id="EstadisticasEncuesta-Descargar" class="btn btn-raised btn-success btn-round waves-effect">
+                                    <i class="material-icons">file_download</i> Exportar Excel
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="row clearfix" id="EstadisticasEncuesta-Resumen" style="display:none;">
+            <div class="col-lg-3 col-md-6 col-sm-6">
+                <div class="card">
+                    <div class="body text-center">
+                        <h6 class="text-muted">Total asistentes</h6>
+                        <h2 id="EstadisticasEncuesta-TotalAsistentes">0</h2>
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-3 col-md-6 col-sm-6">
+                <div class="card">
+                    <div class="body text-center">
+                        <h6 class="text-muted">Respondieron</h6>
+                        <h2 id="EstadisticasEncuesta-TotalRespondieron">0</h2>
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-3 col-md-6 col-sm-6">
+                <div class="card">
+                    <div class="body text-center">
+                        <h6 class="text-muted">% Respuesta (meta <span id="EstadisticasEncuesta-Meta">60</span>%)</h6>
+                        <h2 id="EstadisticasEncuesta-PctRespuesta">0%</h2>
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-3 col-md-6 col-sm-6">
+                <div class="card">
+                    <div class="body text-center">
+                        <h6 class="text-muted">% Satisfechos</h6>
+                        <h2 id="EstadisticasEncuesta-PctSatisfechos">0%</h2>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="row clearfix">
+            <div class="col-lg-12">
+                <div class="card">
+                    <div class="header">
+                        <h2><strong>Detalle</strong> por pregunta</h2>
+                    </div>
+                    <div class="body" id="EstadisticasEncuesta-Preguntas">
+                        <p class="text-muted">Selecciona un evento y consulta para ver el detalle.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<script src="~/assets/js/estadisticasencuesta.js?v=@DateTime.UtcNow.Ticks"></script>

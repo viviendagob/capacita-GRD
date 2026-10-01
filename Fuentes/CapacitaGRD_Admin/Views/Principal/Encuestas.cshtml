@@ -1,0 +1,178 @@
+﻿@{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+@using CapacitaGRD_Admin.DTOs
+<section class="content">
+    <div class="container-fluid">
+        <div class="row clearfix">
+            <div class="col-lg-12">
+                <div class="card">
+                    <div class="header">
+                        <h2><strong>Encuestas</strong></h2>
+
+                    </div>
+
+                    <div class="body">
+                        <div class="row clearfix">
+                            <div class="col-lg-6 col-md-6 col-sm-6">
+                                <b>Búsqueda</b>
+                                <div class="form-group">
+                                    <input type="text" class="form-control" id="Encuestas-Buscar-Nombre" placeholder="Nombre encuesta" autocomplete="off">
+                                </div>
+                            </div>
+
+                            <div class="col-lg-6 col-md-6 col-sm-6 mt-3">
+                                <button type="button" id="Encuestas-Buscar" class="btn btn-raised btn-primary btn-round waves-effect m-l-20">Buscar</button>
+                                <button type="button" id="Encuestas-Agregar" class="btn btn-raised btn-default btn-round waves-effect m-l-20">Agregar</button>
+                            </div>
+                        </div>
+                    </div>
+                    <br />
+
+                    <div class="body">
+
+
+                        <div class="tab-content">
+                            <div class="table-responsive">
+                                <table class="table table-bordered table-hover dataTable dtr-inline" style="width: 100%;" id="Encuestas-Tabla">
+                                    <thead>
+                                        <tr>
+                                            <th>Id</th>
+                                            <th>Nombre</th>
+                                            <th>&nbsp;</th>
+                                            <th>&nbsp;</th>
+                                            <th>&nbsp;</th>
+                                        </tr>
+                                    </thead>
+
+                                    <tbody>                                      
+                                    </tbody>
+                                </table>
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+</section>
+
+<!-- Modal Encuestas -->
+<div class="modal fade" id="Modal-Encuestas" aria-hidden="true" data-codigo="">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="title">Datos de la encuesta</h4>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">×</span>
+                </button>
+            </div>
+            <div class="modal-body">
+
+                <div class="form-group row mb-1" style="display: none;  ">
+                    <label for="Modal-Encuestas-Codigo" class="col-sm-2 col-form-label text-right">Código</label>
+                    <div class="col-sm-4">
+                        <input id="Modal-Encuestas-Codigo" name="Modal-Encuestas-Codigo" class="form-control"
+                               type="text" value="" disabled="" />
+                    </div>
+                </div>
+
+                <div class="form-group row mb-1">
+                    <label for="Modal-Encuestas-Nombre" class="col-sm-2 col-form-label text-right">Nombre</label>
+                    <div class="col-sm-10">
+                        <input id="Modal-Encuestas-Nombre" name="Modal-Encuestas-Nombre" class="form-control"
+                               type="text" value="" autocomplete="off" />
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="table-responsive">
+                        <table class="table m-b-0" id="Modal-Encuestas-Preguntas"
+                               style="width: 100%; border-collapse: collapse !important;">
+                            <thead>
+                                <tr>
+                                    <th style="width: 5%; display: none;">#Codigo</th>
+                                    <th style="width: 40%;">Nombre</th>
+                                    <th style="width: 20%;">Tipo</th>
+                                    <th style="width: 30%;">Respuestas</th>
+                                    <th style="width: 5%;">
+                                        <button id="Modal-Encuestas-Preguntas-Agregar"
+                                                class="btn btn-default btn-icon  btn-icon-mini btn-round">
+                                            <i class="material-icons">add</i>
+                                        </button>
+                                    </th>
+                                </tr>
+                            </thead>
+                            <tbody></tbody>
+                        </table>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-lg-12">
+                        <div class="alert alert-warning mt-2" style="padding-bottom: 0px;padding-top: 0px;border-radius: 5px;">
+                            <strong>Advertencia!</strong> Las respuestas deben ser separadas por punto y coma ";".
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="modal-footer">
+                <div class="row" style="width: 100%">
+                    <div class="col-sm-6 text-left">
+                        <button id="Encuestas-Cancelar" type="button" class="btn" data-dismiss="modal">
+                            Cancelar
+                        </button>
+                    </div>
+
+                    <div class="col-sm-6 text-right">
+                        <button id="Encuestas-Guardar" type="button" class="btn btn-success pull-right">
+                            <i class="material-icons">check_circle</i> Guardar
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- /.modal-content -->
+    </div>
+    <!-- /.modal-dialog -->
+</div>
+<!-- Fin - Modal  -->
+
+<!-- Modal Encuestas Previo-->
+<div class="modal fade" id="Modal-Encuestas-Previo" aria-hidden="true" data-codigo="">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="title">Visualización previa</h4>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">×</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <div class="body" id="Modal-Encuestas-Previo-Contenido">
+                </div>
+            </div>
+
+            <div class="modal-footer">
+                <div class="row" style="width: 100%">
+                    <div class="col-sm-6 text-left">
+                        <button id="Encuestas-Previo-Cancelar" type="button" class="btn" data-dismiss="modal">
+                            Cancelar
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- Fin - Modal  -->
+
+
+<script src="~/assets/js/encuesta.js?v=@DateTime.UtcNow"></script>
+<script>
+
+    Encuestas.Init();
+
+</script>

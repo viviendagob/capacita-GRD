@@ -1,0 +1,161 @@
+﻿@{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+@using CapacitaGRD_Admin.DTOs
+<section class="content">
+    <div class="container-fluid">
+        <div class="row clearfix">
+            <div class="col-lg-12">
+                <div class="card">
+                    <div class="header">
+                        <h2><strong>Cuestionarios</strong></h2>
+
+                    </div>
+
+                    <div class="body">
+                        <div class="row clearfix">
+                            <div class="col-lg-6 col-md-6 col-sm-6">
+                                <b>Búsqueda</b>
+                                <div class="form-group">
+                                    <input type="text" class="form-control" id="Cuestionarios-Buscar-Nombre" placeholder="Nombre cuestionario" autocomplete="off">
+                                </div>
+                            </div>
+
+                            <div class="col-lg-6 col-md-6 col-sm-6 mt-3">
+                                <button type="button" id="Cuestionarios-Buscar" class="btn btn-raised btn-primary btn-round waves-effect m-l-20">Buscar</button>
+                                <button type="button" id="Cuestionarios-Agregar" class="btn btn-raised btn-default btn-round waves-effect m-l-20">Agregar</button>
+                            </div>
+                        </div>
+                    </div>
+                    <br />
+
+                    <div class="body">
+
+
+                        <div class="tab-content">
+                            <div class="table-responsive">
+                                <table class="table table-bordered table-hover dataTable dtr-inline" style="width: 100%;" id="Cuestionarios-Tabla">
+                                    <thead>
+                                        <tr>
+                                            <th>Id</th>
+                                            <th>Nombre</th>
+                                            <th>&nbsp;</th>
+                                            <th>&nbsp;</th>
+                                            <th>&nbsp;</th>
+                                        </tr>
+                                    </thead>
+
+                                    <tbody>                                      
+                                    </tbody>
+                                </table>
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+</section>
+
+<!-- Modal Cuestionarios -->
+<div class="modal fade" id="Modal-Cuestionarios" aria-hidden="true" data-codigo="">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="title">Datos del cuestionario</h4>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">×</span>
+                </button>
+            </div>
+            <div class="modal-body">
+
+                <div class="form-group row mb-1" style="display: none;  ">
+                    <label for="Modal-Cuestionarios-Codigo" class="col-sm-2 col-form-label text-right">Código</label>
+                    <div class="col-sm-4">
+                        <input id="Modal-Cuestionarios-Codigo" name="Modal-Cuestionarios-Codigo" class="form-control"
+                               type="text" value="" disabled="" />
+                    </div>
+                </div>
+
+                <div class="form-group row mb-1">
+                    <label for="Modal-Cuestionarios-Nombre" class="col-sm-2 col-form-label text-right">Nombre</label>
+                    <div class="col-sm-10">
+                        <input id="Modal-Cuestionarios-Nombre" name="Modal-Cuestionarios-Nombre" class="form-control"
+                               type="text" value="" autocomplete="off" />
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="col-sm-12 d-flex justify-content-between align-items-center">
+                        <label class="m-0"><strong>Preguntas del cuestionario</strong></label>
+                        <button type="button" id="Modal-Cuestionarios-Preguntas-Agregar"
+                                class="btn btn-default btn-icon btn-icon-mini btn-round" title="Agregar pregunta">
+                            <i class="material-icons">add</i>
+                        </button>
+                    </div>
+                </div>
+
+                <div id="Modal-Cuestionarios-Preguntas"></div>
+
+            </div>
+
+            <div class="modal-footer">
+                <div class="row" style="width: 100%">
+                    <div class="col-sm-6 text-left">
+                        <button id="Cuestionarios-Cancelar" type="button" class="btn" data-dismiss="modal">
+                            Cancelar
+                        </button>
+                    </div>
+
+                    <div class="col-sm-6 text-right">
+                        <button id="Cuestionarios-Guardar" type="button" class="btn btn-success pull-right">
+                            <i class="material-icons">check_circle</i> Guardar
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- /.modal-content -->
+    </div>
+    <!-- /.modal-dialog -->
+</div>
+<!-- Fin - Modal  -->
+
+<!-- Modal Cuestionarios Previo-->
+<div class="modal fade" id="Modal-Cuestionarios-Previo" aria-hidden="true" data-codigo="">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="title">Visualización previa</h4>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">×</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <div class="body" id="Modal-Cuestionarios-Previo-Contenido">
+                </div>
+            </div>
+
+            <div class="modal-footer">
+                <div class="row" style="width: 100%">
+                    <div class="col-sm-6 text-left">
+                        <button id="Cuestionarios-Previo-Cancelar" type="button" class="btn" data-dismiss="modal">
+                            Cancelar
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- Fin - Modal  -->
+
+
+<script src="~/assets/js/cuestionario.js?v=@DateTime.UtcNow"></script>
+<script>
+
+    Cuestionarios.Init();
+
+</script>

@@ -1,0 +1,42 @@
+﻿<Project Sdk="Microsoft.NET.Sdk.Web">
+
+  <PropertyGroup>
+    <TargetFramework>net8.0</TargetFramework>
+    <!--<Nullable>enable</Nullable>-->
+    <Nullable>disable</Nullable>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <UserSecretsId>f331cf6f-349e-4b70-a286-da7c610da050</UserSecretsId>
+  </PropertyGroup>
+
+ 
+
+  <ItemGroup>
+    <PackageReference Include="AutoMapper" Version="13.0.1" />
+    <PackageReference Include="ClosedXML" Version="0.105.0" />
+    <PackageReference Include="HtmlRendererCore.PdfSharp" Version="1.0.5" />
+    <PackageReference Include="Microsoft.AspNetCore.Authentication.JwtBearer" Version="8.0.12" />
+    <PackageReference Include="Microsoft.AspNetCore.Http.Abstractions" Version="2.3.0" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="8.0.8" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.Tools" Version="8.0.8">
+      <PrivateAssets>all</PrivateAssets>
+      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+    </PackageReference>
+    <PackageReference Include="Microsoft.IdentityModel.Tokens" Version="8.1.1" />
+    <PackageReference Include="Newtonsoft.Json" Version="13.0.3" />
+    <PackageReference Include="PuppeteerSharp" Version="20.0.5" />
+    <PackageReference Include="QrCode.Net" Version="0.4.0" />
+    <PackageReference Include="QuestPDF" Version="2024.10.0" />
+    <PackageReference Include="RestSharp" Version="112.1.0" />
+    <PackageReference Include="SixLabors.Fonts" Version="2.0.4" />
+    <PackageReference Include="Swashbuckle.AspNetCore" Version="6.5.0" />
+    <PackageReference Include="System.Drawing.Common" Version="8.0.10" />
+    <PackageReference Include="System.IdentityModel.Tokens.Jwt" Version="8.1.1" />
+  </ItemGroup>
+
+ 
+
+  <ItemGroup>
+    <Folder Include="wwwroot\eventos\" />
+  </ItemGroup>
+
+</Project>

@@ -1,0 +1,66 @@
+@{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+@using CapacitaGRD_Admin.DTOs
+@{
+    var Eventos = ViewData["Eventos"] as List<EventoDTO>;
+}
+
+<section class="content">
+    <div class="container-fluid">
+        <div class="row clearfix">
+            <div class="col-lg-12">
+                <div class="card">
+                    <div class="header">
+                        <h2><strong>Asistencia por evento</strong></h2>
+                    </div>
+
+                    <div class="body">
+                        <div class="row clearfix">
+                            <div class="col-lg-6 col-md-6 col-sm-6">
+                                <b>Evento</b>
+                                <select name="EventoAsistencia-Evento" id="EventoAsistencia-Evento" style="width: 100%;">
+                                    <option value="0">Seleccione</option>
+                                    @{
+                                        if (Eventos is not null)
+                                        {
+                                            foreach (var item in Eventos)
+                                            {
+                                                <option value="@item.ID_EVENTO">@item.NOMBRE</option>
+                                            }
+                                        }
+                                    }
+                                </select>
+                            </div>
+                            <div class="col-lg-6 col-md-6 col-sm-6 mt-4">
+                                <button type="button" id="EventoAsistencia-Buscar" class="btn btn-raised btn-primary btn-round waves-effect">Buscar</button>
+                                <button type="button" id="EventoAsistencia-Descargar" class="btn btn-raised btn-success btn-round waves-effect">
+                                    <i class="material-icons">file_download</i> Exportar
+                                </button>
+                            </div>
+                        </div>
+
+                        <div class="table-responsive">
+                            <table class="table table-bordered table-hover dataTable dtr-inline" style="width: 100%;" id="EventoAsistencia-Tabla">
+                                <thead>
+                                    <tr>
+                                        <th>Tipo Documento</th>
+                                        <th>Num Documento</th>
+                                        <th>Nombres</th>
+                                        <th>Ape Paterno</th>
+                                        <th>Ape Materno</th>
+                                        <th>Modalidad</th>
+                                        <th>Fecha de Asistencia</th>
+                                    </tr>
+                                </thead>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<script src="~/assets/js/eventoasistencia.js?v=@DateTime.UtcNow.Ticks"></script>

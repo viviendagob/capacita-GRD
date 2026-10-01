@@ -1,0 +1,463 @@
+@{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+@using CapacitaGRD_Admin.DTOs
+@{
+    var Eventos = ViewData["Eventos"] as List<EventoDTO>;
+    var Modalidades = ViewData["Modalidades"] as List<ModalidadDTO>;
+    var Estados = ViewData["Estados"] as List<EstadoDTO>;
+    var Entidades = ViewData["Entidades"] as List<EntidadDTO>;
+    var Distritos = ViewData["Distritos"] as List<DistritoDTO>;
+
+    var Departamentos = Distritos?
+        .Select(d => d.DEPARTAMENTO)
+        .Where(d => !string.IsNullOrWhiteSpace(d))
+        .Distinct()
+        .OrderBy(d => d)
+        .ToList() ?? new List<string>();
+}
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display&family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+
+<style>
+    .dash-root {
+        --dash-ink: #181B20;
+        --dash-ink-m: #5A6472;
+        --dash-paper: #EEF0F3;
+        --dash-surf: #ffffff;
+        --dash-rule: #DDE1E7;
+        --dash-primary: #EF1A1E;
+        --dash-primary-2: #C4151A;
+        font-family: 'Inter', sans-serif;
+    }
+
+    .dash-root .dash-serif {
+        font-family: 'DM Serif Display', serif;
+    }
+
+    /* ---------- Hero ---------- */
+    .dash-hero {
+        position: relative;
+        border-radius: 16px;
+        padding: 30px 30px 24px;
+        margin-bottom: 22px;
+        color: #fff;
+        overflow: hidden;
+        background: linear-gradient(120deg, rgba(20, 22, 25, .95) 0%, rgba(29, 32, 36, .92) 52%, rgba(196, 21, 26, .82) 130%);
+        box-shadow: 0 10px 30px -12px rgba(20, 20, 24, .5);
+    }
+
+    .dash-hero-top {
+        display: flex;
+        align-items: flex-start;
+        justify-content: space-between;
+        flex-wrap: wrap;
+        gap: 16px;
+    }
+
+    .dash-hero-badge-row {
+        display: flex;
+        align-items: center;
+        gap: 12px;
+    }
+
+    .dash-hero-shield {
+        width: 44px;
+        height: 44px;
+        background: rgba(255,255,255,.1);
+        border: 1px solid rgba(255,255,255,.2);
+        border-radius: 10px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        flex-shrink: 0;
+    }
+
+    .dash-hero-shield .material-icons { font-size: 22px; }
+
+    .dash-hero-org {
+        font-size: 10.5px;
+        letter-spacing: .1em;
+        text-transform: uppercase;
+        color: rgba(255,255,255,.62);
+        line-height: 1.5;
+    }
+
+    .dash-hero-org b {
+        display: block;
+        color: #fff;
+        font-size: 12.5px;
+        letter-spacing: .02em;
+    }
+
+    .dash-hero-live {
+        display: flex;
+        align-items: center;
+        gap: 6px;
+        background: rgba(255,255,255,.1);
+        border: 1px solid rgba(255,255,255,.2);
+        border-radius: 20px;
+        padding: 5px 12px;
+        font-size: 11px;
+        font-weight: 600;
+    }
+
+    .dash-hero-live .dash-pulse {
+        width: 7px;
+        height: 7px;
+        border-radius: 50%;
+        background: #4ade80;
+        animation: dash-pulse 1.6s ease infinite;
+    }
+
+    @@keyframes dash-pulse {
+        0% { box-shadow: 0 0 0 0 rgba(74,222,128,.6); }
+        70% { box-shadow: 0 0 0 7px rgba(74,222,128,0); }
+        100% { box-shadow: 0 0 0 0 rgba(74,222,128,0); }
+    }
+
+    .dash-hero-title {
+        font-size: clamp(1.5rem, 3vw, 2.05rem);
+        margin-top: 16px;
+        line-height: 1.15;
+    }
+
+    .dash-hero-sub {
+        font-size: 13.5px;
+        color: rgba(255,255,255,.72);
+        margin-top: 7px;
+        max-width: 680px;
+    }
+
+    /* ---------- Filtros ---------- */
+    .dash-filtros {
+        background: var(--dash-surf);
+        border: 1px solid var(--dash-rule);
+        border-radius: 12px;
+        padding: 18px 20px;
+        margin-bottom: 22px;
+    }
+
+    .dash-filtros label {
+        font-size: 10.5px;
+        font-weight: 700;
+        letter-spacing: .05em;
+        text-transform: uppercase;
+        color: var(--dash-ink-m);
+        margin-bottom: 5px;
+        display: block;
+    }
+
+    .dash-filtros .form-control {
+        border: 1.5px solid var(--dash-rule);
+        border-radius: 8px;
+        font-size: 13px;
+        background: #F7F8FA;
+    }
+
+    .dash-filtros-actions {
+        display: flex;
+        gap: 8px;
+        align-items: flex-end;
+        height: 100%;
+        padding-bottom: 2px;
+    }
+
+    .dash-btn {
+        border: none;
+        border-radius: 8px;
+        padding: 9px 16px;
+        font-size: 12.5px;
+        font-weight: 700;
+        cursor: pointer;
+        transition: .15s;
+        letter-spacing: .01em;
+    }
+
+    .dash-btn-primary {
+        background: var(--dash-primary);
+        color: #fff;
+    }
+
+    .dash-btn-primary:hover { background: var(--dash-primary-2); }
+
+    .dash-btn-ghost {
+        background: #F7F8FA;
+        border: 1.5px solid var(--dash-rule);
+        color: var(--dash-ink-m);
+    }
+
+    .dash-btn-ghost:hover { border-color: #C3CAD6; }
+
+    /* ---------- KPIs ---------- */
+    .dash-kpis {
+        display: grid;
+        grid-template-columns: repeat(4, 1fr);
+        gap: 12px;
+        margin-bottom: 22px;
+    }
+
+    @@media (max-width: 1200px) { .dash-kpis { grid-template-columns: repeat(3, 1fr); } }
+    @@media (max-width: 860px)  { .dash-kpis { grid-template-columns: repeat(2, 1fr); } }
+    @@media (max-width: 480px)  { .dash-kpis { grid-template-columns: 1fr; } }
+
+    .dash-kpi {
+        background: var(--dash-surf);
+        border: 1px solid var(--dash-rule);
+        border-radius: 12px;
+        padding: 16px 16px 14px;
+        position: relative;
+        overflow: hidden;
+        transition: box-shadow .15s, transform .15s;
+    }
+
+    .dash-kpi:hover {
+        box-shadow: 0 6px 18px -8px rgba(20,40,80,.18);
+        transform: translateY(-1px);
+    }
+
+    .dash-kpi::before {
+        content: "";
+        position: absolute;
+        top: 0; left: 0; right: 0;
+        height: 3px;
+        background: var(--kpi-color, var(--dash-primary));
+    }
+
+    .dash-kpi .material-icons {
+        position: absolute;
+        right: 12px;
+        top: 14px;
+        font-size: 20px;
+        color: var(--kpi-color, var(--dash-primary));
+        opacity: .55;
+    }
+
+    .dash-kpi-value {
+        font-size: 26px;
+        font-weight: 800;
+        color: var(--dash-ink);
+        line-height: 1;
+        margin-top: 2px;
+    }
+
+    .dash-kpi-label {
+        font-size: 11px;
+        color: var(--dash-ink-m);
+        margin-top: 7px;
+        letter-spacing: .01em;
+    }
+
+    /* ---------- Charts ---------- */
+    .dash-card {
+        background: var(--dash-surf);
+        border: 1px solid var(--dash-rule);
+        border-radius: 12px;
+        padding: 18px 20px;
+        margin-bottom: 22px;
+        height: 100%;
+    }
+
+    .dash-card h6 {
+        font-family: 'DM Serif Display', serif;
+        font-weight: 400;
+        font-size: 17px;
+        color: var(--dash-ink);
+        margin: 0 0 14px;
+        padding-bottom: 10px;
+        border-bottom: 2px solid var(--dash-primary);
+    }
+
+    #Dashboard-Empty {
+        text-align: center;
+        padding: 60px 20px;
+        color: #9aa5b1;
+    }
+
+    /* ---------- Barras horizontales (estilo ejecutivo) ---------- */
+    .dash-bar-row {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        margin: 11px 0;
+    }
+
+    .dash-bar-lbl {
+        width: 108px;
+        flex-shrink: 0;
+        font-size: 12px;
+        font-weight: 600;
+        color: var(--dash-ink-m);
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+    }
+
+    .dash-bar-track {
+        flex: 1;
+        height: 11px;
+        background: var(--dash-paper);
+        border-radius: 6px;
+        overflow: hidden;
+    }
+
+    .dash-bar-fill {
+        height: 100%;
+        border-radius: 6px;
+        transition: width .6s cubic-bezier(.4,0,.2,1);
+    }
+
+    .dash-bar-count {
+        width: 34px;
+        flex-shrink: 0;
+        text-align: right;
+        font-size: 13px;
+        font-weight: 800;
+        color: var(--dash-ink);
+    }
+
+    .dash-empty {
+        color: #9aa5b1;
+        font-size: 13px;
+        text-align: center;
+        padding: 30px 10px;
+        margin: 0;
+    }
+</style>
+
+<section class="content dash-root">
+    <div class="container-fluid">
+
+        <div class="dash-hero">
+            <div class="dash-hero-top">
+                <div class="dash-hero-badge-row">
+                    <div class="dash-hero-shield"><span class="material-icons">dashboard</span></div>
+                    <div class="dash-hero-org">
+                        MINISTERIO DE VIVIENDA, CONSTRUCCIÓN Y SANEAMIENTO
+                        <b>Sistema CAPACITA-GRD</b>
+                    </div>
+                </div>
+                <div class="dash-hero-live">
+                    <span class="dash-pulse"></span> DATOS EN VIVO
+                </div>
+            </div>
+            <div class="dash-hero-title dash-serif">Dashboard de seguimiento</div>
+            <div class="dash-hero-sub">Panorama consolidado de eventos de capacitación: participación, asistencia, encuestas de satisfacción y constancias emitidas.</div>
+        </div>
+
+        <div class="dash-filtros">
+            <div class="row clearfix">
+                <div class="col-lg-3 col-md-6 col-sm-6">
+                    <label>Evento</label>
+                    <select id="Dashboard-Evento" style="width:100%;">
+                        <option value="0">Todos</option>
+                        @if (Eventos is not null)
+                        {
+                            foreach (var e in Eventos)
+                            {
+                                <option value="@e.ID_EVENTO">@e.NOMBRE</option>
+                            }
+                        }
+                    </select>
+                </div>
+                <div class="col-lg-2 col-md-6 col-sm-6">
+                    <label>Fecha desde</label>
+                    <input type="text" id="Dashboard-FechaDesde" class="form-control" placeholder="dd/mm/aaaa" autocomplete="off" />
+                </div>
+                <div class="col-lg-2 col-md-6 col-sm-6">
+                    <label>Fecha hasta</label>
+                    <input type="text" id="Dashboard-FechaHasta" class="form-control" placeholder="dd/mm/aaaa" autocomplete="off" />
+                </div>
+                <div class="col-lg-2 col-md-6 col-sm-6">
+                    <label>Modalidad</label>
+                    <select id="Dashboard-Modalidad" style="width:100%;">
+                        <option value="0">Todas</option>
+                        @if (Modalidades is not null)
+                        {
+                            foreach (var m in Modalidades)
+                            {
+                                <option value="@m.ID_MODALIDAD">@m.NOMBRE</option>
+                            }
+                        }
+                    </select>
+                </div>
+                <div class="col-lg-3 col-md-6 col-sm-6">
+                    <label>Estado del evento</label>
+                    <select id="Dashboard-Estado" style="width:100%;">
+                        <option value="0">Todos</option>
+                        @if (Estados is not null)
+                        {
+                            foreach (var s in Estados)
+                            {
+                                <option value="@s.ID_ESTADO">@s.NOMBRE</option>
+                            }
+                        }
+                    </select>
+                </div>
+            </div>
+            <div class="row clearfix mt-2">
+                <div class="col-lg-3 col-md-6 col-sm-6">
+                    <label>Departamento</label>
+                    <select id="Dashboard-Departamento" style="width:100%;">
+                        <option value="">Todos</option>
+                        @foreach (var d in Departamentos)
+                        {
+                            <option value="@d">@d</option>
+                        }
+                    </select>
+                </div>
+                <div class="col-lg-3 col-md-6 col-sm-6">
+                    <label>Tipo de institución</label>
+                    <select id="Dashboard-Entidad" style="width:100%;">
+                        <option value="0">Todas</option>
+                        @if (Entidades is not null)
+                        {
+                            foreach (var en in Entidades)
+                            {
+                                <option value="@en.ID_ENTIDAD">@en.NOMBRE</option>
+                            }
+                        }
+                    </select>
+                </div>
+                <div class="col-lg-4 col-md-8 col-sm-8">
+                    <label>&nbsp;</label>
+                    <div class="dash-filtros-actions">
+                        <button type="button" id="Dashboard-Filtrar" class="dash-btn dash-btn-primary">
+                            <i class="material-icons" style="font-size:14px; vertical-align:middle;">filter_alt</i> Aplicar filtros
+                        </button>
+                        <button type="button" id="Dashboard-Limpiar" class="dash-btn dash-btn-ghost">Limpiar</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="dash-kpis" id="Dashboard-Kpis"></div>
+
+        <div class="row clearfix">
+            <div class="col-lg-4 col-md-12">
+                <div class="dash-card">
+                    <h6>Participantes por modalidad</h6>
+                    <div id="Dashboard-BarModalidad"></div>
+                </div>
+            </div>
+            <div class="col-lg-4 col-md-12">
+                <div class="dash-card">
+                    <h6>Top departamentos</h6>
+                    <div id="Dashboard-BarDepartamento"></div>
+                </div>
+            </div>
+            <div class="col-lg-4 col-md-12">
+                <div class="dash-card">
+                    <h6>Eventos por estado</h6>
+                    <div id="Dashboard-BarEstado"></div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+</section>
+
+<script src="~/assets/js/dashboard.js?v=@DateTime.UtcNow.Ticks"></script>

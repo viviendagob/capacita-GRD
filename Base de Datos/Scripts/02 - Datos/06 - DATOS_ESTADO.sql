@@ -1,0 +1,4 @@
+INSERT INTO BD_ugerdes_capacitagrd.dbo.MAE_ESTADO (NOMBRE) VALUES
+	 (N'ACTIVO'),
+	 (N'CANCELADO'),
+	 (N'REALIZADO');

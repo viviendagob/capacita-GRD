@@ -1,0 +1,149 @@
+﻿@using CapacitaGRD_Admin.DTOs
+@model List<SeccionDTO>
+
+<section class="content">
+    <div class="container-fluid">
+        <div class="row clearfix">
+            <div class="col-lg-12">
+                <div class="card">
+                    <div class="header">
+                        <h2><strong>App - Secciones </strong></h2>
+                     
+                    </div>
+
+                    <div class="body">
+                        <div class="row clearfix">
+                            <div class="col-lg-6 col-md-6 col-sm-6">
+                                <b>Búsqueda</b>
+                                <div class="form-group">
+                                    <input type="text" class="form-control" id="Secciones-Buscar-Nombre" placeholder="Nombre seccion" autocomplete="off">
+                                </div>
+                            </div>
+
+                            <div class="col-lg-6 col-md-6 col-sm-6 mt-3">
+                                <button type="button" id="Secciones-Buscar" class="btn btn-raised btn-primary btn-round waves-effect m-l-20">Buscar</button>
+                                <button type="button" id="Secciones-Agregar" class="btn btn-raised btn-default btn-round waves-effect m-l-20" >Agregar</button>
+                            </div>
+                        </div>
+                    </div>
+                <br />
+
+                    <div class="body">
+
+
+                        <div class="tab-content">
+                            <div class="table-responsive">
+                                <table class="table table-bordered table-hover dataTable dtr-inline" style="width: 100%;" id="Secciones-Tabla">
+                                    <thead>
+                                        <tr>
+                                            <th>Id</th>
+                                            <th>Nombre</th>
+                                            <th>&nbsp;</th>
+                                            <th>&nbsp;</th>
+                                        </tr>
+                                    
+                                    </thead>
+                                    <tbody>
+                                        @{
+                                            foreach (var item in Model)
+                                            {
+                                                <tr>
+                                                    <td>@item.ID_SECCION</td>
+                                                    <td>@item.NOMBRE</td>
+                                                    <td>
+                                                        @{
+                                                            if (@item.ID_SECCION != 1)
+                                                            {
+                                                                <button type="button" class="btn btn-info btn-icon  btn-icon-mini btn-round" onclick="javascript:Secciones.Edit('@item.ID_SECCION');" title="Editar">
+                                                                    <i class="material-icons">border_color</i>
+                                                                </button>
+                                                            }
+                                                        }
+                                                        
+                                                    </td>
+                                                    <td>
+                                                        @{
+                                                            if (@item.ID_SECCION != 1)
+                                                            {
+                                                                <button type="button" class="btn btn-danger btn-icon  btn-icon-mini btn-round" onclick="javascript:Secciones.Delete('@item.ID_SECCION');" title="Eliminar">
+                                                                    <i class="material-icons">delete_forever</i>
+                                                                </button>
+                                                            }
+                                                        }
+
+
+                                                        
+                                                    </td>
+                                                </tr>
+                                            }
+                                        }
+                                    </tbody>
+                                </table>
+                            </div>
+
+                        </div>
+                    </div>
+            </div>
+        </div>
+    </div>
+     
+</div>
+</section>
+
+<!-- Modal Secciones -->
+<div class="modal fade" id="Modal-Secciones" aria-hidden="true" data-codigo="">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="title">Datos de la seccion</h4>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">×</span>
+                </button>
+            </div>
+            <div class="modal-body">
+
+                <div class="form-group row mb-1">
+                    <label for="Modal-Secciones-Codigo" class="col-sm-2 col-form-label text-right">Código</label>
+                    <div class="col-sm-4">
+                        <input id="Modal-Secciones-Codigo" name="Modal-Secciones-Codigo" class="form-control" type="text" value="" disabled="" />
+                    </div>
+
+                </div>
+                 
+                <div class="form-group row mb-1">
+                    <label for="Modal-Secciones-Nombre" class="col-sm-2 col-form-label text-right">Nombre</label>
+                    <div class="col-sm-10">
+                        <input id="Modal-Secciones-Nombre" name="Modal-Secciones-Nombre" class="form-control" type="text" value="" maxlength="250" autocomplete="off" />
+                    </div>
+                </div>
+                  
+            </div>
+
+            <div class="modal-footer">
+                <div class="row" style="width: 100%">
+                    <div class="col-sm-6 text-left">
+                        <button id="Secciones-Cancelar" type="button" class="btn" data-dismiss="modal">
+                            Cancelar
+                        </button>
+                    </div>
+
+                    <div class="col-sm-6 text-right">
+                        <button id="Secciones-Guardar" type="button" class="btn btn-success pull-right">
+                            <i class="material-icons">check_circle</i> Guardar
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- /.modal-content -->
+    </div>
+    <!-- /.modal-dialog -->
+</div>
+<!-- Fin - Modal  -->
+
+<script src="~/assets/js/seccion.js?v=@DateTime.UtcNow"></script>
+<script>
+
+Secciones.Init();
+   
+</script>

@@ -1,0 +1,4 @@
+INSERT INTO BD_ugerdes_capacitagrd.dbo.MAE_TIPO_ENCUESTA_RESPUESTA (NOMBRE) VALUES
+	 (N'RANGO'),
+	 (N'MARCAR'),
+	 (N'TEXTO');

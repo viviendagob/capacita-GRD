@@ -1,0 +1,509 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>CapacitaGRD</title>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=Edge">
+    <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
+    <meta name="description" content="PNC - Ministerio de Vivienda, Construcción y Saneamiento">
+
+    <title>:: PNC :: Eventos</title>
+
+    <!-- Favicon-->
+    <link rel="icon" href="favicon.ico" type="image/x-icon">
+
+    <link rel="stylesheet" href="~/assets/plugins/bootstrap/css/bootstrap.min.css">
+
+    <link rel="stylesheet" href="~/assets/plugins/sweetalert/sweetalert.css" />
+
+    <link rel="stylesheet" href="~/assets/plugins/jquery-datatable/dataTables.bootstrap4.min.css">
+
+    <link href="~/assets/plugins/bootstrap-select/css/bootstrap-select.css"  rel="stylesheet" />
+
+    <link rel="stylesheet" href="~/assets/plugins/bootstrap-tagsinput/bootstrap-tagsinput.css">
+
+    <link rel="stylesheet" href="~/assets/css/main.css">
+    <link rel="stylesheet" href="~/assets/css/color_skins.css">
+
+    <style>
+        /* Corrige el calendario del datepicker: el tema oculta .dropdown-menu mediante
+           visibility:hidden y solo lo revierte con la clase .open, pero bootstrap-datepicker
+           no agrega esa clase, por lo que el calendario nunca se mostraba. */
+        .datepicker.datepicker-dropdown {
+            visibility: visible;
+            opacity: 1;
+        }
+
+        /* Barra de progreso delgada para la navegación por AJAX (pjax.js), en vez de la
+           pantalla completa roja del loader (esa solo debe verse en la carga inicial real). */
+        #pjax-progress {
+            position: fixed;
+            top: 0;
+            left: 0;
+            height: 3px;
+            width: 0%;
+            background: #E8A020;
+            z-index: 99999;
+            transition: width 0.2s ease-out, opacity 0.3s ease-out;
+            opacity: 0;
+        }
+        #pjax-progress.pjax-loading {
+            opacity: 1;
+        }
+    </style>
+
+</head>
+
+
+<body class="theme-red" style="overflow: auto;">
+
+    <!-- Page Loader -->
+    <div class="page-loader-wrapper">
+        <div class="loader">
+            <div class="m-t-30">
+                <img src="../assets/images/logo-vivienda-v1.png" width="150" height="150" alt="Ministerio de Vivienda" class="rounded">
+            </div>
+            <p>Por favor espere...</p>
+        </div>
+    </div>
+    <div class="overlay_menu">
+        <button class="btn btn-primary btn-icon btn-icon-mini btn-round"><i class="zmdi zmdi-close"></i></button>
+        <div class="container">
+            <div class="row clearfix">
+                <div class="card">
+                    <div class="body">
+                        <div class="input-group m-b-0">
+                            <input type="text" class="form-control" placeholder="Buscar...">
+                            <span class="input-group-addon">
+                                <i class="zmdi zmdi-search"></i>
+                            </span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="row clearfix">
+                <div class="col-lg-12 col-md-12">
+                    <div class="social">
+                        <a class="icon" href="https://www.facebook.com/thememakkerteam" target="_blank"><i class="zmdi zmdi-facebook"></i></a>
+                        <a class="icon" href="https://www.behance.net/thememakker" target="_blank"><i class="zmdi zmdi-behance"></i></a>
+                        <a class="icon" href="#"><i class="zmdi zmdi-twitter"></i></a>
+                        <a class="icon" href="#"><i class="zmdi zmdi-linkedin"></i></a>
+                        <p>Coded by WrapTheme<br> Designed by <a href="http://thememakker.com/" target="_blank">thememakker.com</a></p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="overlay"></div><!-- Overlay For Sidebars -->
+
+    <nav class="navbar">
+        <div class="container">
+            <ul class="nav navbar-nav">
+                <li>
+                    <div class="navbar-header">
+                        <a href="javascript:void(0);" class="h-bars"></a>
+                        <a class="navbar-brand" asp-area="" asp-controller="Principal" asp-action="Eventos"><img src="../assets/images/MINISTERIO-VIVIENDA-LOGO.svg" width="135" alt="Ministerio de Vivienda"></a>
+                    </div>
+                </li>
+                <li class="search_bar">
+@*                     <div class="input-group">
+                        <input type="text" class="form-control" placeholder="Buscar...">
+                    </div> *@
+                </li>
+@*                 <li class="dropdown">
+                    <a href="javascript:void(0);" class="dropdown-toggle" data-toggle="dropdown" role="button"><i class="zmdi zmdi-apps"></i></a>
+                    <ul class="dropdown-menu pullDown">
+                        <li><a href="mail-inbox.html"><i class="zmdi zmdi-email m-r-10"></i><span>Mail</span></a></li>
+                        <li><a href="contact.html"><i class="zmdi zmdi-accounts-list m-r-10"></i><span>Contacts</span></a></li>
+                        <li><a href="chat.html"><i class="zmdi zmdi-comment-text m-r-10"></i><span>Chat</span></a></li>
+                        <li><a href="invoices.html"><i class="zmdi zmdi-arrows m-r-10"></i><span>Invoices</span></a></li>
+                        <li><a href="events.html"><i class="zmdi zmdi-calendar-note m-r-10"></i><span>Calendar</span></a></li>
+                        <li><a href="javascript:void(0)"><i class="zmdi zmdi-arrows m-r-10"></i><span>Notes</span></a></li>
+                        <li><a href="javascript:void(0)"><i class="zmdi zmdi-view-column m-r-10"></i><span>Taskboard</span></a></li>
+                    </ul>
+                </li>
+                <li class="dropdown notifications badgebit">
+                    <a href="javascript:void(0);" class="dropdown-toggle" data-toggle="dropdown" role="button">
+                        <i class="zmdi zmdi-notifications"></i>
+                        <div class="notify">
+                            <span class="heartbit"></span>
+                            <span class="point"></span>
+                        </div>
+                    </a>
+                    <ul class="dropdown-menu pullDown">
+                        <li class="header">New Message</li>
+                        <li class="body">
+                            <ul class="menu list-unstyled">
+                                <li>
+                                    <a href="javascript:void(0);">
+                                        <div class="media">
+                                            <img class="media-object" src="assets/images/xs/avatar5.jpg" alt="">
+                                            <div class="media-body">
+                                                <span class="name">Alexander <span class="time">13min ago</span></span>
+                                                <span class="message">Meeting with Shawn at Stark Tower by 8 o'clock.</span>
+                                            </div>
+                                        </div>
+                                    </a>
+                                </li>
+                                <li>
+                                    <a href="javascript:void(0);">
+                                        <div class="media">
+                                            <img class="media-object" src="assets/images/xs/avatar6.jpg" alt="">
+                                            <div class="media-body">
+                                                <span class="name">Grayson <span class="time">22min ago</span></span>
+                                                <span class="message">You have 5 unread emails in your inbox.</span>
+                                            </div>
+                                        </div>
+                                    </a>
+                                </li>
+                                <li>
+                                    <a href="javascript:void(0);">
+                                        <div class="media">
+                                            <img class="media-object" src="assets/images/xs/avatar3.jpg" alt="">
+                                            <div class="media-body">
+                                                <span class="name">Sophia <span class="time">31min ago</span></span>
+                                                <span class="message">OrderPlaced: You received a new oder from Tina.</span>
+                                            </div>
+                                        </div>
+                                    </a>
+                                </li>
+                                <li>
+                                    <a href="javascript:void(0);">
+                                        <div class="media">
+                                            <img class="media-object" src="assets/images/xs/avatar4.jpg" alt="">
+                                            <div class="media-body">
+                                                <span class="name">Isabella <span class="time">35min ago</span></span>
+                                                <span class="message">Lara added a comment in Blazing Saddles.</span>
+                                            </div>
+                                        </div>
+                                    </a>
+                                </li>
+                            </ul>
+                        </li>
+                        <li class="footer"> <a href="javascript:void(0);">View All</a> </li>
+                    </ul>
+                </li> *@
+                <li class="dropdown task badgebit">
+@*                     <a href="javascript:void(0);" class="dropdown-toggle" data-toggle="dropdown" role="button">
+                        <i class="zmdi zmdi-flag"></i>
+                        <div class="notify">
+                            <span class="heartbit"></span>
+                            <span class="point"></span>
+                        </div>
+                    </a>
+                    <ul class="dropdown-menu pullDown">
+                        <li class="header">Project</li>
+                        <li class="body">
+                            <ul class="menu tasks list-unstyled">
+                                <li>
+                                    <a href="javascript:void(0);">
+                                        <span class="text-muted">Clockwork Orange <span class="float-right">29%</span></span>
+                                        <div class="progress">
+                                            <div class="progress-bar l-turquoise" role="progressbar" aria-valuenow="29" aria-valuemin="0" aria-valuemax="100" style="width: 29%;"></div>
+                                        </div>
+                                    </a>
+                                </li>
+                                <li>
+                                    <a href="javascript:void(0);">
+                                        <span class="text-muted">Blazing Saddles <span class="float-right">78%</span></span>
+                                        <div class="progress">
+                                            <div class="progress-bar l-slategray" role="progressbar" aria-valuenow="78" aria-valuemin="0" aria-valuemax="100" style="width: 78%;"></div>
+                                        </div>
+                                    </a>
+                                </li>
+                                <li>
+                                    <a href="javascript:void(0);">
+                                        <span class="text-muted">Project Archimedes <span class="float-right">45%</span></span>
+                                        <div class="progress">
+                                            <div class="progress-bar l-parpl" role="progressbar" aria-valuenow="45" aria-valuemin="0" aria-valuemax="100" style="width: 45%;"></div>
+                                        </div>
+                                    </a>
+                                </li>
+                                <li>
+                                    <a href="javascript:void(0);">
+                                        <span class="text-muted">Eisenhower X <span class="float-right">68%</span></span>
+                                        <div class="progress">
+                                            <div class="progress-bar l-coral" role="progressbar" aria-valuenow="68" aria-valuemin="0" aria-valuemax="100" style="width: 68%;"></div>
+                                        </div>
+                                    </a>
+                                </li>
+                                <li>
+                                    <a href="javascript:void(0);">
+                                        <span class="text-muted">Oreo Admin Templates <span class="float-right">21%</span></span>
+                                        <div class="progress">
+                                            <div class="progress-bar l-amber" role="progressbar" aria-valuenow="21" aria-valuemin="0" aria-valuemax="100" style="width: 21%;"></div>
+                                        </div>
+                                    </a>
+                                </li>
+                            </ul>
+                        </li>
+                        <li class="footer"><a href="javascript:void(0);">View All</a></li>
+                    </ul> *@
+                </li>
+                <li class="float-right">
+@*                     <a href="javascript:void(0);" class="fullscreen" data-provide="fullscreen"><i class="zmdi zmdi-fullscreen"></i></a>
+                    <a href="javascript:void(0);" class="btn_overlay"><i class="zmdi zmdi-sort-amount-desc"></i></a> *@
+                    <!--
+                    <a href="javascript:void(0);" class="js-right-sidebar"><i class="zmdi zmdi-settings zmdi-hc-spin"></i></a>
+                    -->
+                    <a href="#" id="Login-Cerrar-Session"  class="mega-menu"><i class="zmdi zmdi-power"></i></a>
+                </li>
+            </ul>
+        </div>
+    </nav>
+
+    <div class="menu-container">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-12">
+                    <ul class="h-menu">
+                        <li><a asp-area="" asp-controller="Principal" asp-action="Eventos"><i class="zmdi zmdi-home"></i></a></li>
+                        <li>
+                            <a asp-area="" asp-controller="Dashboard" asp-action="Index">
+                                <i class="material-icons" style="font-size:18px; vertical-align:middle;">dashboard</i> Dashboard
+                            </a>
+                        </li>
+                        <li class="open active">
+                            <a href="javascript:void(0)">Eventos</a>
+                            <ul class="sub-menu">
+                                <li>
+                                    <a asp-area="" asp-controller="Principal" asp-action="eventos">
+                                        <i class="material-icons">event</i> Eventos 
+                                    </a>
+                                    <!--<a href="mail-inbox.html">Inbox</a>-->
+                                </li>
+                                <li>
+                                    <a asp-area="" asp-controller="Principal" asp-action="participantes">
+                                        <i class="material-icons">person</i> Registro General
+                                    </a>
+                                    <!--<a href="chat.html">Chat</a>-->
+                                </li>
+                                <li>
+                                    <a href="certificados">
+                                        <i class="material-icons">content_paste</i> Certificados
+                                    </a>
+                                    <!--<a href="events.html">Calendar</a>-->
+                                </li>
+                                <li>
+                                    <a asp-area="" asp-controller="Principal" asp-action="encuestas">
+                                        <i class="material-icons">event</i> Encuestas
+                                    </a>
+                                    <!--
+                                    <a href="file-dashboard.html">File Manager</a>
+                                    -->
+                                </li>
+                                <li>
+                                    <!--<a href="contact.html">Contact list</a>-->
+                                    <a asp-area="" asp-controller="Principal" asp-action="cuestionarios">
+                                        <i class="material-icons">event</i> Cuestionarios
+                                    </a>
+                                </li>
+                                <li>
+                                    <!--<a href="app-ticket.html">Support Ticket</a>-->
+                                    <a asp-area="" asp-controller="Principal" asp-action="configuracion">
+                                        <i class="material-icons">settings</i> Configuración 
+                                    </a>
+                                </li>
+                            </ul>
+                        </li>
+                        <li>
+                            <a href="javascript:void(0)">Consultas</a>
+                            <ul class="sub-menu">
+                                <li>
+                                    <!--<a href="blog-dashboard.html">Dashboard</a>-->
+                                    <a asp-area="" asp-controller="Principal" asp-action="consultaparticipants">
+                                        <i class="material-icons">search</i> Participantes 
+                                    </a>
+                                </li>
+                                <li>
+                                    <!--<a href="blog-post.html">New Post</a>-->
+                                    <a asp-area="" asp-controller="EventoAsistencia" asp-action="Index">
+                                        <i class="material-icons">search</i> Asistencia
+                                    </a>
+                                </li>
+                                <li>
+                                    <a asp-area="" asp-controller="Constancias" asp-action="Index">
+                                        <i class="material-icons">verified</i> Constancias
+                                    </a>
+                                </li>
+                                <li>
+                                    <a asp-area="" asp-controller="Reportes" asp-action="Index">
+                                        <i class="material-icons">assessment</i> Reporte Participantes
+                                    </a>
+                                </li>
+                                <li>
+                                    <a asp-area="" asp-controller="EstadisticasEncuesta" asp-action="Index">
+                                        <i class="material-icons">poll</i> Estadísticas Encuesta
+                                    </a>
+                                </li>
+                            </ul>
+                        </li>
+                        <li>
+                            <a href="javascript:void(0)">Maestros</a>
+                            <ul class="sub-menu">
+                                <li>
+                                    <a asp-area="" asp-controller="Principal" asp-action="cargos">
+                                        <i class="material-icons">add_to_queue</i> Cargos
+                                    </a>
+                                </li>
+                                <li>
+                                    <a asp-area="" asp-controller="Principal" asp-action="profesiones">
+                                        <i class="material-icons">add_to_queue</i> Profesiones
+                                    </a>
+                                </li>
+                                <li>
+                                    <a asp-area="" asp-controller="Principal" asp-action="distritos">
+                                        <i class="material-icons">add_to_queue</i> Distritos
+                                    </a>
+                                </li>
+                                <li>
+                                    <a asp-area="" asp-controller="Principal" asp-action="paises">
+                                        <i class="material-icons">add_to_queue</i> Paises
+                                    </a>
+                                </li>
+                                <li>
+                                    <a asp-area="" asp-controller="Principal" asp-action="documentos">
+                                        <i class="material-icons">add_to_queue</i> Documentos
+                                    </a>
+                                </li>
+
+                                <li>
+                                    <a asp-area="" asp-controller="Principal" asp-action="usuarios">
+                                        <i class="material-icons">add_to_queue</i> Usuarios
+                                    </a>
+                                </li>
+                            </ul>
+
+                        </li>
+                        <li>
+                            <a href="javascript:void(0)">App</a>
+                            <ul class="sub-menu">
+                                <li>
+                                    <!--<a href="basic-form-elements.html">Basic Elements</a>-->
+                                    <a asp-area="" asp-controller="Principal" asp-action="secciones">
+                                        <i class="material-icons">smartphone</i> Secciones
+                                    </a>
+                                </li>
+                            </ul>
+                        </li>
+
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- pjax: barra de progreso delgada en vez del loader de pantalla completa en cada
+         navegación (ese solo se ve en la carga inicial real del sitio). -->
+    <div id="pjax-progress"></div>
+
+    <div id="pjax-content">
+        @RenderBody()
+    </div>
+
+    <script src="~/assets/bundles/libscripts.bundle.js"></script>
+    <script src="~/assets/bundles/vendorscripts.bundle.js"></script>
+     
+    <script src="~/assets/plugins/jquery-validation/jquery.validate.js"></script>
+    <script src="~/assets/plugins/jquery-steps/jquery.steps.js"></script> 
+
+    <script src="~/assets/bundles/datatablescripts.bundle.js"></script>
+    <script src="~/assets/plugins/jquery-datatable/buttons/dataTables.buttons.min.js"></script>
+
+
+    <script src="~/assets/plugins/bootstrap-notify/bootstrap-notify.js"></script>
+    <script src="~/assets/bundles/mainscripts.bundle.js"></script>
+    <script src="~/assets/plugins/sweetalert/sweetalert.min.js"></script>
+    <script src="~/assets/plugins/jquery-inputmask/jquery.inputmask.bundle.js"></script>
+    <script src="~/assets/plugins/ion-rangeslider/js/ion.rangeSlider.js"></script>
+    <script src="~/assets/plugins/bootstrap-tagsinput/bootstrap-tagsinput.js"></script>
+
+    <link href="~/assets/plugins/select2/select2.min.css" rel="stylesheet" />
+    <script src="~/assets/plugins/select2/select2.min.js"></script>
+
+    <link href="~/assets/plugins/bootstrap-datepicker/bootstrap-datepicker.min.css" rel="stylesheet" />
+    <script src="~/assets/plugins/bootstrap-datepicker/popper.min.js"></script>
+    <script src="~/assets/plugins/bootstrap-datepicker/bootstrap-datepicker.min.js"></script>
+
+    <script src="~/assets/plugins/ckeditor/ckeditor.js"></script>
+    <script src="~/assets/js/login.js?v=@DateTime.UtcNow"></script>
+    <script>
+        Login.Init();
+
+    </script>
+
+    <script>
+        $(document).ready(function () {
+            $(".h-menu > li > a").on("click", function (e) {
+                var $li = $(this).parent();
+                var $subMenu = $li.children("ul.sub-menu");
+
+                if ($subMenu.length) {
+                    e.preventDefault();
+
+                    $(".h-menu > li").not($li).removeClass("open active").children("ul.sub-menu").stop(true, true).slideUp(150);
+
+                    $li.toggleClass("open active");
+                    $subMenu.stop(true, true).slideToggle(150);
+                }
+            });
+
+            $(document).on("click", function (e) {
+                if (!$(e.target).closest(".h-menu").length) {
+                    $(".h-menu > li").removeClass("open active").children("ul.sub-menu").stop(true, true).slideUp(150);
+                }
+            });
+        });
+    </script>
+
+    <script>
+                function soloLetras(evento){
+                    key = evento.keyCode || evento.which;
+                    teclado = String.fromCharCode(key).toLocaleLowerCase();
+                    letras = " áéíóúabcdefghijklmnñopqrstuvwxyz";
+                    especiales = "8-32-37-38-39-46-164";
+
+                    teclado_especial = false;
+                    for (var i in especiales) {
+                    if (key == especiales[i]) {
+                    teclado_especial = true; break;
+                    }
+                    }
+                    if (letras.indexOf(teclado) == -1 && !teclado_especial) {
+                    return false;
+                    }
+                }
+
+                function soloNumeros(evento){
+                    key = evento.keyCode || evento.which;
+                    teclado = String.fromCharCode(key).toLocaleLowerCase();
+                    letras = "+0123456789";
+                    especiales = "-32-37-38-39-46-164";
+
+                    teclado_especial = false;
+                    for (var i in especiales) {
+                    if (key == especiales[i]) {
+                    teclado_especial = true; break;
+                    }
+                    }
+                    if (letras.indexOf(teclado) == -1 && !teclado_especial) {
+                    return false;
+                    }
+                } 
+
+                const soloLetrasNoNumeros = function(campo) {
+                    let valor = campo.value;
+                    if(/\d/.test(valor)) {
+                    campo.value = valor.replace(/\d/g,'');
+                    }
+                };
+
+
+
+</script>
+<script src="~/assets/js/pjax.js?v=@DateTime.UtcNow"></script>
+</body>
+
+</html>

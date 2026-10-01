@@ -1,0 +1,375 @@
+﻿@{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+@using CapacitaGRD_Admin.DTOs
+@using Newtonsoft.Json
+@using Newtonsoft.Json.Serialization
+
+@{    
+    var Paises = ViewData["Paises"] as List<PaisDTO>;
+    var jsonPaises = JsonConvert.SerializeObject(Paises, Formatting.Indented, new JsonSerializerSettings { ContractResolver = new CamelCasePropertyNamesContractResolver() }).ToString().Replace("\r\n", String.Empty);
+
+    var Profesiones = ViewData["Profesiones"] as List<ProfesionDTO>;
+    var jsonProfesiones = JsonConvert.SerializeObject(Profesiones, Formatting.Indented, new JsonSerializerSettings { ContractResolver = new CamelCasePropertyNamesContractResolver() }).ToString().Replace("\r\n", String.Empty);
+
+    var Distritos = ViewData["Distritos"] as List<DistritoDTO>;
+    var jsonDistritos = JsonConvert.SerializeObject(Distritos, Formatting.Indented, new JsonSerializerSettings { ContractResolver = new CamelCasePropertyNamesContractResolver() }).ToString().Replace("\r\n", String.Empty);
+
+    var Cargos = ViewData["Cargos"] as List<CargoDTO>;
+    var jsonCargos = JsonConvert.SerializeObject(Cargos, Formatting.Indented, new JsonSerializerSettings { ContractResolver = new CamelCasePropertyNamesContractResolver() }).ToString().Replace("\r\n", String.Empty);
+
+    var Entidades = ViewData["Entidades"] as List<EntidadDTO>;
+    var jsonEntidades = JsonConvert.SerializeObject(Entidades, Formatting.Indented, new JsonSerializerSettings { ContractResolver = new CamelCasePropertyNamesContractResolver() }).ToString().Replace("\r\n", String.Empty);
+
+    var Eventos = ViewData["Eventos"] as List<EventoDTO>;
+} 
+
+<style>
+    #wizard_with_validation .steps a {
+        padding-bottom: 0px;
+        padding-top: 0px;
+    }
+
+</style>
+
+<section class="content">
+    <div class="container-fluid">
+        <div class="row clearfix">
+            <div class="col-lg-12">
+                <div class="card">
+                    <div class="header">
+                        <h2><strong>Consulta de participantes</strong></h2>
+
+                    </div>
+
+                    <div class="body">
+                        <div class="row clearfix">
+                            <div class="col-lg-6 col-md-6 col-sm-6">
+                                <b>Evento</b>
+                                <select name="ConsultaParticipants-Buscar-Evento" id="ConsultaParticipants-Buscar-Evento" style="width: 100%;">
+                                    <option value="0">Seleccione</option>
+                                    @{
+                                        foreach (var item in Eventos)
+                                        {
+                                            <option value="@item.ID_EVENTO">@item.NOMBRE</option>
+                                        }
+                                    }
+                                </select>
+                            </div>
+                        </div>
+                        <div class="row mt-3">
+                            <div class="col-lg-2 col-md-2 col-sm-2">
+                                <b>Tipo documento</b>
+                                <select name="ConsultaParticipants-Buscar-Tipo" id="ConsultaParticipants-Buscar-Tipo" style="width: 100%;">
+                                    <option value="0">Seleccione</option>
+                                    <option value="1">DNI</option>
+                                    <option value="2">CE</option>
+                                    <option value="3">Pasaporte</option>
+                                </select>
+                            </div>
+
+                            <div class="col-lg-2 col-md-2 col-sm-2">
+                                <b>Num documento</b>
+                                <div class="form-group">
+                                    <input type="text" class="form-control" id="ConsultaParticipants-Buscar-Documento" placeholder="Buscar por documento de identidad" autocomplete="off">
+                                </div>
+                            </div>
+
+                            <div class="col-lg-2 col-md-2 col-sm-2">
+                                <b>Apellido paterno</b>
+                                <div class="form-group">
+                                    <input type="text" class="form-control" id="ConsultaParticipants-Buscar-Paterno" placeholder="Buscar por apellido paterno" autocomplete="off">
+                                </div>
+                            </div>
+
+                            <div class="col-lg-2 col-md-2 col-sm-2">
+                                <b>Apellido materno</b>
+                                <div class="form-group">
+                                    <input type="text" class="form-control" id="ConsultaParticipants-Buscar-Materno" placeholder="Buscar por apellido materno" autocomplete="off">
+                                </div>
+                            </div>
+
+
+                            <div class="col-lg-4 col-md-4 col-sm-4">
+                                <button type="button" id="ConsultaParticipants-Buscar" class="btn btn-raised btn-primary btn-round waves-effect m-l-20 mt-3">Buscar</button>
+                            </div>
+                        </div>
+                    </div>
+                    <br />
+
+                    <div class="body">
+
+
+                        <div class="tab-content">
+                            <div class="table-responsive">
+                                <table class="table table-bordered table-hover dataTable dtr-inline" style="width: 100%;" id="ConsultaParticipants-Tabla">
+                                    <thead>
+                                        <tr>
+                                            <th>Id</th>
+                                            <th>&nbsp;</th>
+                                            <th>Tipo Documento</th>
+                                            <th>Num Documento</th>
+                                            <th>Nombre</th>
+                                            <th>Ape Paterno</th>
+                                            <th>Ape Materno</th>
+                                            <th>Asistencias</th>
+                                            <th>&nbsp;</th>
+                                            <th>&nbsp;</th>
+                                         </tr>
+
+                                    </thead>
+                                    <tbody>                                        
+                                    </tbody>
+                                </table>
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+</section>
+
+<!-- Modal Evento -->
+<div class="modal fade" id="Modal-Participantes" aria-hidden="true" data-codigo="">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="title">Datos del participante</h4>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">×</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <div id="Modal-Participantes-Datos">
+                    <form id="wizard_with_validation" method="POST">
+                        <h5>Datos personales</h5>
+                        <fieldset>
+                            <div class="row clearfix">
+                                <div class="col-md-12">
+                                    <div class="form-group mb-1">
+                                        <label for="Modal-Participantes-Naci" class="col-form-label">Fecha Nacimiento*</label>
+                                        <input id="Modal-Participantes-Naci" name="Modal-Participantes-Naci" class="form-control" type="date" value="" max="@DateTime.Now.AddYears(-18).Date.ToString("yyyy-MM-dd")" min="@DateTime.Now.AddYears(-90).Date.ToString("yyyy-MM-dd")" autocomplete="off" required />
+                                    </div>
+
+                                    <div class="form-group mb-1">
+                                        <label for="Modal-Participantes-Nombres" class="col-form-label">Nombres*</label>
+                                        <input id="Modal-Participantes-Nombres" name="Modal-Participantes-Nombres" class="form-control" type="text" style="text-transform: uppercase;" value="" autocomplete="off" onkeypress="return soloLetras(this)" required />
+                                    </div>
+
+                                    <div class="form-group mb-1">
+                                        <label for="Modal-Participantes-Paterno" class="col-form-label">Paterno*</label>
+                                        <input id="Modal-Participantes-Paterno" name="Modal-Participantes-Paterno" class="form-control" type="text" style="text-transform: uppercase;" value="" autocomplete="off" onkeypress="return soloLetras(this)" required />
+                                    </div>
+
+                                    <div class="form-group mb-1">
+                                        <label for="Modal-Participantes-Materno" class="col-form-label">Materno</label>
+                                        <input id="Modal-Participantes-Materno" name="Modal-Participantes-Materno" class="form-control" type="text" style="text-transform: uppercase;" value="" autocomplete="off" onkeypress="return soloLetras(this)" required />
+                                    </div>
+
+                                    <div class="form-group mb-1">
+                                        <label for="Modal-Participantes-Nacionalidad" class="col-form-label">Nacionalidad*</label>
+                                        <div class="col-sm-12" style="padding-left: 0px;">
+                                            <select id="Modal-Participantes-Nacionalidad" name="Modal-Participantes-Nacionalidad" style="width: 100%;" required>
+                                                @{
+                                                    foreach (var item in Paises)
+                                                    {
+                                                        <option value="@item.ID_PAIS" >@item.NOMBRE</option>
+                                                    }
+                                                }
+                                            </select>
+                                        </div>
+                                    </div>
+                                     
+
+                                    <div class="form-group mb-1">
+                                        <label for="Modal-Participantes-Sexo" class="col-form-label">Sexo*</label>
+                                        <div class="col-sm-12" style="padding-left: 0px;">
+                                            <select id="Modal-Participantes-Sexo" name="Modal-Participantes-Sexo" style="width: 100%;" required>
+                                                <option value="0">Seleccione</option>
+                                                <option value="M">Masculino</option>
+                                                <option value="F">Femenino</option>
+                                            </select>
+                                        </div>
+                                    </div>
+                 
+                                    <div class="form-group mb-1">
+                                        <label for="Modal-Participantes-Profesion" class="col-form-label">Profesión u ocupación*</label>
+                                        <select id="Modal-Participantes-Profesion" name="Modal-Participantes-Profesion" style="width: 100%;" required>
+                                                @{
+                                                    foreach (var item in Profesiones)
+                                                    {
+                                                        <option value="@item.ID_PROFESION" >@item.NOMBRE</option>
+                                                    }
+                                                }
+                                            </select>
+
+                                    </div>
+
+                                    <div class="form-group mb-1">
+                                        <label for="Modal-Participantes-Celular" class="col-form-label">N° Celular*</label>
+                                        <input id="Modal-Participantes-Celular" name="Modal-Participantes-Celular" class="form-control" type="text" value="" autocomplete="off" onkeypress="return soloNumeros(this)" required />
+                                    </div>
+
+                                    <div class="form-group mb-1">
+                                        <label for="Modal-Participantes-Correo" class="col-form-label">Correo electrónico*</label>
+                                        <input id="Modal-Participantes-Correo" name="Modal-Participantes-Correo" class="form-control" type="email" style="text-transform: uppercase;" value="" autocomplete="off" maxlength="11" required />
+                                    </div>
+                                </div>
+                            </div>
+
+                        </fieldset>
+
+                        <h5>Datos laborales</h5>
+                        <fieldset>
+                            <div class="row clearfix">
+                                <div class="col-md-12">
+                                    <div class="form-group mb-1">
+
+                                        <div class="form-group mb-1">
+                                            <label for="Modal-Participantes-Eventos" class="col-form-label">Eventos registrados</label>
+                                            <div class="col-sm-12" style="padding-left: 0px;">
+                                                <select id="Modal-Participantes-Eventos" name="Modal-Participantes-Eventos" style="width: 100%;" required>
+                                                    
+                                                </select>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="form-group mb-1 clsOculta">
+
+                                        <label for="Modal-Participantes-NacionalidadLabora" class="col-form-label ">País (donde labora)*</label>
+                                        <div class="col-sm-12" style="padding-left: 0px;">
+                                            <select id="Modal-Participantes-NacionalidadLabora" name="Modal-Participantes-NacionalidadLabora" style="width: 100%;" required>
+                                                <option value="0">Seleccione</option>
+                                                @{
+                                                    foreach (var item in Paises)
+                                                    {
+                                                        <option value="@item.ID_PAIS">@item.NOMBRE</option>
+                                                    }
+                                                }
+                                            </select>
+                                        </div>
+                                    </div>
+
+                                    <div class="form-group mb-1 clsOculta">
+                                        <label for="Modal-Participantes-Tipo" class="col-form-label">Tipo de entidad*</label>
+                                        <div class="col-sm-12" style="padding-left: 0px;">
+                                            <select id="Modal-Participantes-Tipo" name="Modal-Participantes-Tipo" style="width: 100%;" required>
+                                                <option value="0">Seleccione</option>
+                                                @{
+                                                    foreach (var item in Entidades)
+                                                    {
+                                                        <option value="@item.ID_ENTIDAD">@item.NOMBRE</option>
+                                                    }
+                                                }
+                                            </select>
+                                        </div>
+                                    </div>
+
+                                    <div class="form-group mb-1 Modal-Participantes-NacionalidadLabora clsOculta">
+                                        <label for="Modal-Participantes-Departamento" class="col-sm-12 col-form-label">Departamento (donde labora)*</label>
+                                        <div class="col-sm-12" style="padding-left: 0px;">
+                                            <select id="Modal-Participantes-Departamento" name="Modal-Participantes-Departamento" class="form-control show-tick" style="width: 100%;" required>                                                
+                                                <option value="0">Seleccione</option>
+                                            </select>
+                                        </div>
+                                    </div>
+
+                                    <div class="form-group mb-1 Modal-Participantes-NacionalidadLabora clsOculta">
+                                        <label for="Modal-Participantes-Provincia" class="col-sm-12 col-form-label">Provincia (donde labora)*</label>
+                                        <div class="col-sm-12" style="padding-left: 0px;">
+                                            <select id="Modal-Participantes-Provincia" name="Modal-Participantes-Provincia" class="form-control show-tick" style="width: 100%;" required>
+                                                <option value="0">Seleccione</option>
+                                            </select>
+                                        </div>
+                                    </div>
+
+                                    <div class="form-group mb-1 Modal-Participantes-NacionalidadLabora clsOculta">
+                                        <label for="Modal-Participantes-Distrito" class="col-sm-12 col-form-label">Distrito (donde labora)*</label>
+                                        <div class="col-sm-12" style="padding-left: 0px;">
+                                            <select id="Modal-Participantes-Distrito" name="Modal-Participantes-Distrito" class="form-control show-tick" style="width: 100%;" required>
+                                                <option value="0">Seleccione</option>
+                                            </select>
+                                        </div>
+                                    </div>
+
+                                                                       
+
+                                    <div class="form-group mb-1 clsOculta">
+                                        <label for="Modal-Participantes-Entidad" class="col-form-label">Nombre de la entidad*</label>
+                                        <input id="Modal-Participantes-Entidad" name="Modal-Participantes-Entidad" class="form-control" type="text" style="text-transform: uppercase;" value="" autocomplete="off" onkeypress="return soloLetras(this)" required />
+                                    </div>
+
+                                    <div class="form-group mb-1 clsOculta">
+                                        <label for="Modal-Participantes-Area" class="col-form-label">Área donde labora*</label>
+                                        <input id="Modal-Participantes-Area" name="Modal-Participantes-Area" class="form-control" type="text" style="text-transform: uppercase;" value="" autocomplete="off" onkeypress="return soloLetras(this)" required />
+                                    </div>
+
+                                    <div class="form-group mb-1 clsOculta">
+                                        <label for="Modal-Participantes-CargoDesenpena" class="col-form-label">Cargo que desempeña*</label>
+                                        <div class="col-sm-12" style="padding-left: 0px;">
+                                            <select id="Modal-Participantes-CargoDesenpena" name="Modal-Participantes-CargoDesenpena" style="width: 100%;" required>
+                                                <option value="0">Seleccione</option>
+                                                @{
+                                                    foreach (var item in Cargos)
+                                                    {
+                                                        <option value="@item.ID_CARGO">@item.NOMBRE</option>
+                                                    }
+                                                }
+                                              
+                                            </select>
+                                        </div>
+                                    </div>
+ 
+                                    <div class="form-group mb-1 clsOculta">
+                                        <label for="Modal-Participantes-Cargo" class="col-form-label">Nombre del cargo *</label>
+                                        <input id="Modal-Participantes-Cargo" name="Modal-Participantes-Cargo" class="form-control" type="text" style="text-transform: uppercase;" value="" autocomplete="off" onkeypress="return soloLetras(this)" required />
+                                    </div>
+                                </div>
+                            </div>
+                        </fieldset>
+
+                    </form>
+                </div>
+
+
+            </div>
+
+            <div class="modal-footer">
+                <div class="row" style="width: 100%">
+                    <div class="col-sm-6 text-left">
+                        <button id="ConsultaParticipants-Cancelar" type="button" class="btn" data-dismiss="modal">
+                            Cancelar
+                        </button>
+                    </div>
+
+                    <div class="col-sm-6 text-right">
+                        <button id="ConsultaParticipants-Guardar" type="button" class="btn btn-success pull-right">
+                            <i class="material-icons">check_circle</i> Guardar
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+</div>
+<!-- Fin - Modal  -->
+
+
+
+<script src="~/assets/js/consultaparticipantes.js?v=@DateTime.UtcNow"></script>
+<script>
+
+    ConsultaParticipants.Paises = JSON.parse("@jsonPaises".replaceAll("&quot;", "\""));
+    ConsultaParticipants.Profesiones = JSON.parse("@jsonProfesiones".replaceAll("&quot;", "\""));
+    ConsultaParticipants.Distritos = JSON.parse("@jsonDistritos".replaceAll("&quot;", "\""));
+    ConsultaParticipants.Cargos = JSON.parse("@jsonCargos".replaceAll("&quot;", "\""));
+    ConsultaParticipants.Entidades = JSON.parse("@jsonEntidades".replaceAll("&quot;", "\""));
+     
+    ConsultaParticipants.Init();
+
+</script>
