@@ -1,0 +1,187 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>CapacitaGRD — Demo visual</title>
+<style>
+  :root {
+    --rojo: #c0392b;
+    --rojo-oscuro: #8e2a1f;
+    --gris-fondo: #f4f5f7;
+    --texto: #26282c;
+    --texto-suave: #6b6f76;
+    --borde: #e3e5e9;
+  }
+  * { box-sizing: border-box; }
+  body {
+    margin: 0;
+    font-family: -apple-system, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+    background: var(--gris-fondo);
+    color: var(--texto);
+  }
+  header {
+    background: linear-gradient(135deg, var(--rojo-oscuro), var(--rojo));
+    color: #fff;
+    padding: 48px 24px 56px;
+    text-align: center;
+  }
+  header .tag {
+    display: inline-block;
+    background: rgba(255,255,255,0.15);
+    padding: 4px 12px;
+    border-radius: 999px;
+    font-size: 13px;
+    margin-bottom: 14px;
+    letter-spacing: .03em;
+  }
+  header h1 { margin: 0 0 10px; font-size: 32px; }
+  header p { margin: 0; opacity: .9; max-width: 640px; margin-inline: auto; line-height: 1.5; }
+  header .links { margin-top: 22px; }
+  header .links a {
+    color: #fff;
+    text-decoration: none;
+    border: 1px solid rgba(255,255,255,0.5);
+    padding: 8px 18px;
+    border-radius: 8px;
+    font-size: 14px;
+    margin: 0 6px;
+    display: inline-block;
+  }
+  header .links a:hover { background: rgba(255,255,255,0.12); }
+
+  main {
+    max-width: 1100px;
+    margin: -32px auto 60px;
+    padding: 0 24px;
+  }
+  .notice {
+    background: #fff;
+    border: 1px solid var(--borde);
+    border-left: 4px solid var(--rojo);
+    border-radius: 10px;
+    padding: 16px 20px;
+    font-size: 14px;
+    color: var(--texto-suave);
+    box-shadow: 0 10px 24px rgba(0,0,0,0.06);
+    margin-bottom: 36px;
+  }
+  .notice strong { color: var(--texto); }
+
+  .grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(420px, 1fr));
+    gap: 24px;
+  }
+  figure {
+    background: #fff;
+    border: 1px solid var(--borde);
+    border-radius: 12px;
+    overflow: hidden;
+    margin: 0;
+    box-shadow: 0 6px 16px rgba(0,0,0,0.05);
+  }
+  figure img {
+    width: 100%;
+    display: block;
+    border-bottom: 1px solid var(--borde);
+  }
+  figcaption {
+    padding: 14px 18px;
+  }
+  figcaption .num {
+    color: var(--rojo);
+    font-weight: 700;
+    font-size: 12px;
+    letter-spacing: .05em;
+  }
+  figcaption h3 {
+    margin: 4px 0 4px;
+    font-size: 16px;
+  }
+  figcaption p {
+    margin: 0;
+    font-size: 13px;
+    color: var(--texto-suave);
+    line-height: 1.4;
+  }
+
+  footer {
+    text-align: center;
+    padding: 30px 24px 50px;
+    font-size: 13px;
+    color: var(--texto-suave);
+  }
+</style>
+</head>
+<body>
+
+<header>
+  <span class="tag">PNC · MVCS — Demo visual</span>
+  <h1>Sistema Capacita-GRD</h1>
+  <p>Sistema de registro y gestión de capacitaciones del Ministerio de Vivienda, Construcción y Saneamiento. Esta página muestra capturas reales del panel de administración en funcionamiento, a modo de vista previa sin necesidad de instalar ni conectar nada.</p>
+  <div class="links">
+    <a href="https://github.com/viviendagob/capacita-GRD">Ver código fuente en GitHub</a>
+  </div>
+</header>
+
+<main>
+  <div class="notice">
+    <strong>Nota:</strong> estas capturas fueron tomadas de una instancia local de desarrollo con datos de prueba.
+    No es un ambiente en vivo ni contiene información real de personas o entidades.
+  </div>
+
+  <div class="grid">
+    <figure>
+      <img src="img/01-login.jpg" alt="Pantalla de inicio de sesión">
+      <figcaption>
+        <div class="num">01</div>
+        <h3>Inicio de sesión</h3>
+        <p>Acceso al panel administrativo con usuario y contraseña, identidad institucional del Ministerio de Vivienda, Construcción y Saneamiento.</p>
+      </figcaption>
+    </figure>
+
+    <figure>
+      <img src="img/02-dashboard.jpg" alt="Dashboard de seguimiento">
+      <figcaption>
+        <div class="num">02</div>
+        <h3>Dashboard de seguimiento</h3>
+        <p>Panorama consolidado de eventos: participación, asistencia, encuestas de satisfacción y constancias emitidas, con filtros por fecha, modalidad y departamento.</p>
+      </figcaption>
+    </figure>
+
+    <figure>
+      <img src="img/03-eventos.jpg" alt="Listado de eventos">
+      <figcaption>
+        <div class="num">03</div>
+        <h3>Gestión de eventos</h3>
+        <p>Listado de capacitaciones con filtros rápidos por estado (activos, realizados, cancelados) y acceso a su tablero individual.</p>
+      </figcaption>
+    </figure>
+
+    <figure>
+      <img src="img/04-evento-form.jpg" alt="Formulario de creación de evento">
+      <figcaption>
+        <div class="num">04</div>
+        <h3>Creación de evento</h3>
+        <p>Formulario para registrar un nuevo evento: modalidad, cupos, banner, certificado, encuesta y cuestionario asociados.</p>
+      </figcaption>
+    </figure>
+
+    <figure>
+      <img src="img/05-maestros-cargos.jpg" alt="Maestro de cargos">
+      <figcaption>
+        <div class="num">05</div>
+        <h3>Maestros del sistema</h3>
+        <p>Catálogos configurables (cargos, profesiones, distritos, países, documentos) que alimentan los formularios de registro.</p>
+      </figcaption>
+    </figure>
+  </div>
+</main>
+
+<footer>
+  Sistema Capacita-GRD — Ministerio de Vivienda, Construcción y Saneamiento del Perú.
+</footer>
+
+</body>
+</html>
