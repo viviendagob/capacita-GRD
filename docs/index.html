@@ -37,19 +37,6 @@
   }
   header h1 { margin: 0 0 10px; font-size: 32px; }
   header p { margin: 0; opacity: .9; max-width: 640px; margin-inline: auto; line-height: 1.5; }
-  header .links { margin-top: 22px; }
-  header .links a {
-    color: #fff;
-    text-decoration: none;
-    border: 1px solid rgba(255,255,255,0.5);
-    padding: 8px 18px;
-    border-radius: 8px;
-    font-size: 14px;
-    margin: 0 6px;
-    display: inline-block;
-  }
-  header .links a:hover { background: rgba(255,255,255,0.12); }
-
   main {
     max-width: 1100px;
     margin: -32px auto 60px;
@@ -85,6 +72,7 @@
     width: 100%;
     display: block;
     border-bottom: 1px solid var(--borde);
+    cursor: zoom-in;
   }
   figcaption {
     padding: 14px 18px;
@@ -112,6 +100,36 @@
     font-size: 13px;
     color: var(--texto-suave);
   }
+
+  .lightbox {
+    display: none;
+    position: fixed;
+    inset: 0;
+    background: rgba(20,20,22,0.92);
+    z-index: 100;
+    align-items: center;
+    justify-content: center;
+    padding: 32px;
+    cursor: zoom-out;
+  }
+  .lightbox.abierto { display: flex; }
+  .lightbox img {
+    max-width: 100%;
+    max-height: 100%;
+    border-radius: 8px;
+    box-shadow: 0 20px 60px rgba(0,0,0,0.5);
+  }
+  .lightbox .cerrar {
+    position: absolute;
+    top: 20px;
+    right: 28px;
+    color: #fff;
+    font-size: 32px;
+    line-height: 1;
+    background: none;
+    border: none;
+    cursor: pointer;
+  }
 </style>
 </head>
 <body>
@@ -120,9 +138,6 @@
   <span class="tag">PNC · MVCS — Demo visual</span>
   <h1>Sistema Capacita-GRD</h1>
   <p>Sistema de registro y gestión de capacitaciones del Ministerio de Vivienda, Construcción y Saneamiento. Esta página muestra capturas reales del panel de administración en funcionamiento, a modo de vista previa sin necesidad de instalar ni conectar nada.</p>
-  <div class="links">
-    <a href="https://github.com/viviendagob/capacita-GRD">Ver código fuente en GitHub</a>
-  </div>
 </header>
 
 <main>
@@ -133,7 +148,7 @@
 
   <div class="grid">
     <figure>
-      <img src="img/01-login.jpg" alt="Pantalla de inicio de sesión">
+      <img src="img/01-login.jpg" alt="Pantalla de inicio de sesión" onclick="abrirLightbox(this)">
       <figcaption>
         <div class="num">01</div>
         <h3>Inicio de sesión</h3>
@@ -142,7 +157,7 @@
     </figure>
 
     <figure>
-      <img src="img/02-dashboard.jpg" alt="Dashboard de seguimiento">
+      <img src="img/02-dashboard.jpg" alt="Dashboard de seguimiento" onclick="abrirLightbox(this)">
       <figcaption>
         <div class="num">02</div>
         <h3>Dashboard de seguimiento</h3>
@@ -151,7 +166,7 @@
     </figure>
 
     <figure>
-      <img src="img/03-eventos.jpg" alt="Listado de eventos">
+      <img src="img/03-eventos.jpg" alt="Listado de eventos" onclick="abrirLightbox(this)">
       <figcaption>
         <div class="num">03</div>
         <h3>Gestión de eventos</h3>
@@ -160,7 +175,7 @@
     </figure>
 
     <figure>
-      <img src="img/04-evento-form.jpg" alt="Formulario de creación de evento">
+      <img src="img/04-evento-form.jpg" alt="Formulario de creación de evento" onclick="abrirLightbox(this)">
       <figcaption>
         <div class="num">04</div>
         <h3>Creación de evento</h3>
@@ -169,7 +184,7 @@
     </figure>
 
     <figure>
-      <img src="img/05-maestros-cargos.jpg" alt="Maestro de cargos">
+      <img src="img/05-maestros-cargos.jpg" alt="Maestro de cargos" onclick="abrirLightbox(this)">
       <figcaption>
         <div class="num">05</div>
         <h3>Maestros del sistema</h3>
@@ -182,6 +197,25 @@
 <footer>
   Sistema Capacita-GRD — Ministerio de Vivienda, Construcción y Saneamiento del Perú.
 </footer>
+
+<div class="lightbox" id="lightbox" onclick="cerrarLightbox()">
+  <button class="cerrar" onclick="cerrarLightbox()">&times;</button>
+  <img id="lightbox-img" src="" alt="">
+</div>
+
+<script>
+  function abrirLightbox(img) {
+    document.getElementById('lightbox-img').src = img.src;
+    document.getElementById('lightbox-img').alt = img.alt;
+    document.getElementById('lightbox').classList.add('abierto');
+  }
+  function cerrarLightbox() {
+    document.getElementById('lightbox').classList.remove('abierto');
+  }
+  document.addEventListener('keydown', function (e) {
+    if (e.key === 'Escape') cerrarLightbox();
+  });
+</script>
 
 </body>
 </html>
